@@ -10,8 +10,8 @@ import { BiMaleFemale } from "react-icons/bi";
 
 const Dashboard = () => {
   return (
-    <div className="admin-container">
-      <AdminSidebar />
+    <div className="">
+      {/* <AdminSidebar /> */}
       <main className="dashboard">
         <div className="bar">
           <BsSearch />

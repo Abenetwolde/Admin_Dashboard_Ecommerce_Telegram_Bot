@@ -16,8 +16,10 @@ import NewCategory from "./Page/NewCategory";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
 import { themeSettings } from "./theme";
+import { PrivateRoute } from "./Page/PrivateRoute";
 // import { themeSettings } from "theme";
-
+import AdminLayout from "./Layout/Admin";
+import Test from "./Page/Test";
 // themeSett
 function App() {
   const navigate = useNavigate();
@@ -34,21 +36,27 @@ function App() {
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
   return (
     <ThemeProvider theme={theme}>
-    <CssBaseline />
-    <Routes>
- 
+      <CssBaseline />
+
+      <Routes>
+
         <Route path="/login" element={<Login />} />
-
+        {/* <PrivateRoute
+          path="/admin"
+          component={props => <AdminLayout {...props} />}
+        /> */}
         <Route element={<ProtectedRoute allowedRoles={["ADMIN", "SUPERADMIN"]} />}>
-          <Route index path="/" element={<Dashboard />} />
-          <Route index path="/dashboard" element={<Dashboard />} />
-          <Route path="/product" element={<Products />} />
-          <Route path="/product/new" element={<NewProduct />} />
-          <Route path="/categorys" element={<Categorys />} />
-          <Route path="/categorys/new" element={<NewCategory />} />
+          <Route path="/*" element={<AdminLayout />}>
+          <Route index element={<NewProduct />} />
+          <Route path="admin/dashboard" element={<NewProduct />} />
+          <Route path="admin/test" element={<Test />} />
+          <Route path="categorys" element={<Categorys />} />
+          <Route path="categorys/new" element={<NewCategory />} />
         </Route>
+        </Route>
+      </Routes>
 
-    </Routes>
+      {/* <Navigate from="/" to="/admin/dashboard" /> */}
     </ThemeProvider>
 
   );
