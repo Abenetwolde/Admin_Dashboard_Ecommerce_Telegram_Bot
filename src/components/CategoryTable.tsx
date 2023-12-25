@@ -105,8 +105,8 @@ const CategoryTable: React.FC = () => {
                 {
                     !categoryState.loading ?
                         (
-                            <TableContainer component={Paper} className="my-4 shadow-md overflow-auto">
-                                <Table sx={{ minWidth: 850 }} aria-label="product table" className="border-collapse">
+                            <TableContainer component={Paper} className="my-4 shadow-md overflow-auto ">
+                                <Table sx={{ maxWidth: 1050 }} aria-label="product table" className="border-collapse align-center justify-center mx-auto">
                                     <TableHead className="bg-blue-200 !text-white">
                                         <TableRow>
                                             {columns.map((column) => (

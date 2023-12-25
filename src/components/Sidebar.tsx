@@ -1,5 +1,5 @@
 // Sidebar.tsx
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink as NavLinkRRD, Link, useLocation } from 'react-router-dom';
 import { IconButton, List, ListItem, ListItemIcon, Typography } from '@mui/material';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
@@ -9,6 +9,7 @@ interface SidebarProps {
   logo?: Logo;
   showSidebar: boolean;
   toggleSidebar: () => void;
+  onCategorySelect: (category: string) => void;
 }
 
 interface Route {
@@ -17,6 +18,7 @@ interface Route {
   name: string;
   icon: React.ReactElement;
   appearInSidebar?: boolean;
+
 }
 
 interface Logo {
@@ -27,11 +29,15 @@ interface Logo {
   title?: string;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ routes, logo, showSidebar, toggleSidebar }) => {
+const Sidebar: React.FC<SidebarProps> = ({ routes, logo, showSidebar, toggleSidebar,onCategorySelect }) => {
   const location = useLocation();
-
+  // const [selectedCategory, setSelectedCategory] = useState<string>(''); // Keep track of selected category
   const activeRoute = (routeName: string): string => {
     return location.pathname.includes(routeName) ? 'active' : '';
+  };
+  const handleCategoryClick = (category: string) => {
+    // setSelectedCategory(category);
+    onCategorySelect(category); // Callback to update the selected category in the parent component
   };
 
   const createLinks = (routes: Array<Route>): React.ReactNode => {
@@ -47,6 +53,7 @@ const Sidebar: React.FC<SidebarProps> = ({ routes, logo, showSidebar, toggleSide
             style={{
               borderLeft: activeRoute(prop.layout + prop.path) ? '4px solid #3498db' : 'none',
             }}
+            onClick={() => handleCategoryClick(prop.name)}
           >
             <div className="flex items-center">
               <ListItemIcon>{prop.icon}</ListItemIcon>

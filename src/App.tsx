@@ -20,6 +20,7 @@ import { PrivateRoute } from "./Page/PrivateRoute";
 // import { themeSettings } from "theme";
 import AdminLayout from "./Layout/Admin";
 import Test from "./Page/Test";
+import Category from "./Page/Category";
 // themeSett
 function App() {
   const navigate = useNavigate();
@@ -49,7 +50,7 @@ function App() {
           <Route path="/*" element={<AdminLayout />}>
           <Route index element={<NewProduct />} />
           <Route path="admin/dashboard" element={<NewProduct />} />
-          <Route path="admin/test" element={<Test />} />
+          <Route path="admin/test" element={<Category />} />
           <Route path="categorys" element={<Categorys />} />
           <Route path="categorys/new" element={<NewCategory />} />
         </Route>
