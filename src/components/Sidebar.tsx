@@ -1,19 +1,14 @@
-import React, { useState } from 'react';
+// Sidebar.tsx
+import React from 'react';
 import { NavLink as NavLinkRRD, Link, useLocation } from 'react-router-dom';
-import {
-  Drawer,
-  IconButton,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Typography,
-} from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
+import { IconButton, List, ListItem, ListItemIcon, Typography } from '@mui/material';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 interface SidebarProps {
   routes: Array<Route>;
   logo?: Logo;
+  showSidebar: boolean;
+  toggleSidebar: () => void;
 }
 
 interface Route {
@@ -32,36 +27,31 @@ interface Logo {
   title?: string;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ routes, logo }) => {
-  const [drawerOpen, setDrawerOpen] = useState(false);
+const Sidebar: React.FC<SidebarProps> = ({ routes, logo, showSidebar, toggleSidebar }) => {
   const location = useLocation();
 
   const activeRoute = (routeName: string): string => {
     return location.pathname.includes(routeName) ? 'active' : '';
   };
 
-  const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
-    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-      return;
-    }
-    setDrawerOpen(open);
-  };
-
   const createLinks = (routes: Array<Route>): React.ReactNode => {
     return routes.map((prop, key) => {
       return prop.appearInSidebar ? (
-        <ListItem key={key}>
+        <ListItem key={key} className="group">
           <NavLinkRRD
             to={prop.layout + prop.path}
             tag={NavLinkRRD}
-            onClick={() => setDrawerOpen(false)}
             activeClassName="active"
-            className={`text-sm py-2 px-4 font-medium text-gray-700 hover:text-gray-900 focus:outline-none focus:text-gray-900 focus:bg-gray-100 transition duration-150 ease-in-out ${activeRoute(
-              prop.layout + prop.path
-            )}`}
+            className={`text-sm py-2 px-4 font-medium group flex items-center justify-between text-gray-700 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition duration-300 ease-in-out ${showSidebar ? 'w-full' : 'w-40'
+              } ${activeRoute(prop.layout + prop.path)}`}
+            style={{
+              borderLeft: activeRoute(prop.layout + prop.path) ? '4px solid #3498db' : 'none',
+            }}
           >
-            <ListItemIcon>{prop.icon}</ListItemIcon>
-            <ListItemText primary={prop.name} />
+            <div className="flex items-center">
+              <ListItemIcon>{prop.icon}</ListItemIcon>
+              {showSidebar && <Typography variant="subtitle1">{prop.name}</Typography>}
+            </div>
           </NavLinkRRD>
         </ListItem>
       ) : null;
@@ -69,52 +59,32 @@ const Sidebar: React.FC<SidebarProps> = ({ routes, logo }) => {
   };
 
   return (
-    <>
-      {/* Mobile menu button */}
-      <IconButton
-        color="inherit"
-        aria-label="open drawer"
-        onClick={toggleDrawer(true)}
-        edge="start"
-        className="mr-2 md:hidden"
-      >
-        <MenuIcon />
-      </IconButton>
-
-      {/* Drawer (both for mobile and desktop) */}
-      <Drawer
-        anchor="left"
-        open={drawerOpen}
-        onClose={toggleDrawer(false)}
-        variant="temporary"
-        className="z-50"
-      >
-        <div className="p-4">
-          <div className="flex items-center mb-4">
-            {logo && (
-              <Link to={logo.innerLink} className="flex items-center">
-                <img alt={logo.imgAlt} className="w-8 h-8 mr-2" src={logo.imgSrc} />
-                <Typography variant="h6">{logo.title}</Typography>
-              </Link>
-            )}
-          </div>
-          <List>{createLinks(routes)}</List>
+    <div
+      className={`bg-white w-${showSidebar ? 'full' : '20'} h-screen overflow-y-auto transition-width duration-300 ease-in-out`}
+    >
+      {/* Toggle button */}
+      <div className="flex justify-end p-4 transition-all duration-300 ease-in-out">
+        <div
+          onClick={toggleSidebar}
+          className={`bg-white border-2 border-blue-200 p-1 rounded-full transition-transform transform ${showSidebar ? '' : '-rotate-180'
+            } cursor-pointer`}
+        >
+          <ArrowForwardIcon className="text-blue-300" />
         </div>
-      </Drawer>
-
-      {/* Desktop Sidebar */}
-      <Drawer variant="permanent" anchor="left" className="w-64 bg-white hidden md:flex md:flex-shrink-0 border-r border-gray-200">
-        <div className="p-4">
+      </div>
+      {/* Sidebar content */}
+      <div className="p-4">
+        <div className="flex items-center mb-4">
           {logo && (
             <Link to={logo.innerLink} className="flex items-center">
               <img alt={logo.imgAlt} className="w-8 h-8 mr-2" src={logo.imgSrc} />
-              <Typography variant="h6">{logo.title}</Typography>
+              {showSidebar && <Typography variant="h6">{logo.title}</Typography>}
             </Link>
           )}
         </div>
-        {createLinks(routes)}
-      </Drawer>
-    </>
+        <List>{createLinks(routes)}</List>
+      </div>
+    </div>
   );
 };
 
