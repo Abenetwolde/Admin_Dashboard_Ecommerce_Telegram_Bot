@@ -4,11 +4,11 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../app/store';
 import { Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow } from '@mui/material';
-import { setPage, setRowsPerPage, fetchCategories, setRowsPerPageAndFetch, setPageAndFetch } from '../redux/categorySlice';
+import { setRowsPerPageAndFetch, setPageAndFetch } from '../redux/categorySlice';
 import { Category } from '../types/Category';
 import DeleteConfirmationModal from './DeleteConfirmationModal';
 import EditModal from './EditModal';
-import { Circles, InfinitySpin, Loader, MutatingDots, ThreeCircles } from 'react-loader-spinner';
+import {  MutatingDots } from 'react-loader-spinner';
 // import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 
 const CategoryTable: React.FC = () => {
@@ -16,11 +16,12 @@ const CategoryTable: React.FC = () => {
     const [deleteRow, setDeletedRow] = useState<Category | null>(null);
     const [editedRow, setEditedRow] = useState<Category | null>(null);
     const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
-    const [data, setData] = useState<Category[]>([]);
+    // const [data, setData] = useState<Category[]>([]);
     // const [page, setPage] = useState<number>(0);
     // const [rowsPerPage, setRowsPerPage] = useState<number>(10);
-    const [totalRows, setTotalRows] = useState<number>(0);
-    const [totalPages, setTotalPages] = useState<number>(0);
+    
+    // const [totalRows, setTotalRows] = useState<number>(0);
+    // const [totalPages, setTotalPages] = useState<number>(0);
     const columns = [
         { Header: 'ID', accessor: '_id' },
         {
@@ -55,11 +56,14 @@ const CategoryTable: React.FC = () => {
     const dispatch = useDispatch();
     const categoryState = useSelector((state: RootState) => state.category);
     console.log('Categories:', categoryState.data);
-    const handleChangePage = (event: unknown, newPage: number) => {
+  
+    const handleChangePage = (_event: unknown, newPage: number) => {
+          //@ts-ignore
         dispatch(setPageAndFetch(newPage));
     };
 
     const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+        //@ts-ignore
         dispatch(setRowsPerPageAndFetch(parseInt(event.target.value, 10)));
     };
     const handleEditClick = (rowData: Category) => {
@@ -119,7 +123,7 @@ const CategoryTable: React.FC = () => {
                                     </TableHead>
 
                                     <TableBody>
-
+                               
                                         {categoryState.data.map((product, index) => (
                                             <TableRow
                                                 key={product._id}
@@ -130,8 +134,10 @@ const CategoryTable: React.FC = () => {
                                                         {column.Cell ? column.Cell({ value: product[column.accessor as keyof Category] }) : getProductValue(product, column.accessor)}
                                                     </TableCell>
                                                 ))}
+                                              
                                                 <TableCell className="p-2">
                                                     <div className="flex justify-between items-center gap-1">
+                                                         
                                                         <button onClick={() => handleEditClick(product)} className="text-blue-600 hover:bg-blue-200 p-1 rounded-full bg-blue-100">
                                                             <EditIcon />
                                                         </button>

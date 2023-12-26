@@ -12,7 +12,7 @@
 // import Coupons from './views/Coupons'
 // import Notifications from './views/Notifications'
 import Test from './Page/Test'
-import Dashboard from './Page/dashboard'
+import Dashboard from './Page/Dashboard'
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import TvIcon from '@mui/icons-material/Tv';
 // Add other necessary icons from '@mui/icons-material' as needed

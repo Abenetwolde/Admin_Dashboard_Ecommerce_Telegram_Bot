@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import CategoryTable from '../components/CategoryTable';
 
 function Category() {
@@ -34,12 +34,12 @@ function Category() {
     setTimeout(hideMessage, 3000);
   };
 
-  const onError = () => {
-    const message = 'Action failed. Please try again';
-    setSuccessMessage('');
-    setErrorMessage(message);
-    setTimeout(hideMessage, 3000);
-  };
+  // const onError = () => {
+  //   const message = 'Action failed. Please try again';
+  //   setSuccessMessage('');
+  //   setErrorMessage(message);
+  //   setTimeout(hideMessage, 3000);
+  // };
 
   const hideMessage = () => {
     setSuccessMessage('');
@@ -90,7 +90,7 @@ function Category() {
               <input
                 className="mt-4"
                 type="file"
-                onChange={(event) => {
+                onChange={(event:any) => {
                   const result = event.target.files[0];
                   setImgMenu(result);
                 }}

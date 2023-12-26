@@ -10,8 +10,8 @@ const NewProduct = () => {
   const [price, setPrice] = useState<number>();
   const [warranty, setStock] = useState<number>();
   const [images, setPhoto] = useState<string>();
-  const [createProduct, { data, isLoading }] = useCreateProductMutation({});
-  const rows = [];
+  const [createProduct, { data,  }] = useCreateProductMutation({});
+
   const handleSubmit = (e:any) => {
     e.preventDefault();
     if(data){
@@ -41,33 +41,33 @@ const NewProduct = () => {
       };
     }
   };
-  const columns = [
-    { Header: 'ID', accessor: '_id' },
-    { Header: 'Category Name', accessor: 'category.name' },
-    {
-      accessor: 'category',
-      Header: 'Category',
-      Cell: ({ value }) => (
-        <div className="flex items-center">
-          {value && value.icon && (
-            <div
-              className="w-5 h-5 rounded-full bg-gray-300 flex items-center justify-center mr-2"
-            >
-              {value.icon}
-            </div>
-          )}
-          {value && value.name}
-        </div>
-      ),
-    },
-    // how add two numbers?
-    { Header: 'Price', accessor: 'price' },
+  // const columns = [
+  //   { Header: 'ID', accessor: '_id' },
+  //   { Header: 'Category Name', accessor: 'category.name' },
+  //   {
+  //     accessor: 'category',
+  //     Header: 'Category',
+  //     Cell: ({ value }) => (
+  //       <div className="flex items-center">
+  //         {value && value.icon && (
+  //           <div
+  //             className="w-5 h-5 rounded-full bg-gray-300 flex items-center justify-center mr-2"
+  //           >
+  //             {value.icon}
+  //           </div>
+  //         )}
+  //         {value && value.name}
+  //       </div>
+  //     ),
+  //   },
+  //   // how add two numbers?
+  //   { Header: 'Price', accessor: 'price' },
 
-    // add more common headers?
+  //   // add more common headers?
 
 
-    // Add more columns as needed
-  ];
+  //   // Add more columns as needed
+  // ];
   return (
     <div className="admin-container">
       <AdminSidebar />

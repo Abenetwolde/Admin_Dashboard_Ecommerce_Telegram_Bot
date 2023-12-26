@@ -1,7 +1,7 @@
 // Sidebar.tsx
-import React, { useState } from 'react';
+import React from 'react';
 import { NavLink as NavLinkRRD, Link, useLocation } from 'react-router-dom';
-import { IconButton, List, ListItem, ListItemIcon, Typography } from '@mui/material';
+import { List, ListItem, ListItemIcon, Typography } from '@mui/material';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 interface SidebarProps {

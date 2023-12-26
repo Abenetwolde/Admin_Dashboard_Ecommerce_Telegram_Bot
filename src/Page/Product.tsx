@@ -1,4 +1,4 @@
-import { ReactElement, useCallback, useState } from "react";
+import { ReactElement, useState } from "react";
 import AdminSidebar from "../components/AdminSidebar";
 // import TableHOC from "../components/TableHOC";
 // import { Column } from "react-table";
@@ -97,7 +97,7 @@ const arr: DataType[] = [
 ];
 
 const Products = () => {
-  const [data] = useState<DataType[]>(arr);
+  // const [data] = useState<DataType[]>(arr);
 
 
 
