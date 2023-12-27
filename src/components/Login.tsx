@@ -2,10 +2,10 @@
 import React from 'react';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { setToken, setUser  } from '../features/authSlice';
+import {  setUser  } from '../features/authSlice';
 
 import api from '../services/api';
-import { Navigate, useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 const Login: React.FC = () => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');

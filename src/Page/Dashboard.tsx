@@ -1,12 +1,9 @@
 import { FaRegBell } from "react-icons/fa";
-import AdminSidebar from "../components/AdminSidebar";
+
 import { BsSearch } from "react-icons/bs";
-// import userImg from "../assets/userpic.png";
+
 import { HiTrendingUp, HiTrendingDown } from "react-icons/hi";
-// import data from "../assets/data.json";
-// import { BarChart, DoughnutChart } from "../components/Charts";
-import { BiMaleFemale } from "react-icons/bi";
-// import Table from "../components/DashboardTable";
+;
 
 const Dashboard = () => {
   return (
@@ -104,25 +101,25 @@ const WidgetItem = ({
   </article>
 );
 
-interface CategoryItemProps {
-  color: string;
-  value: number;
-  heading: string;
-}
+// interface CategoryItemProps {
+//   color: string;
+//   value: number;
+//   heading: string;
+// }
 
-const CategoryItem = ({ color, value, heading }: CategoryItemProps) => (
-  <div className="category-item">
-    <h5>{heading}</h5>
-    <div>
-      <div
-        style={{
-          backgroundColor: color,
-          width: `${value}%`,
-        }}
-      ></div>
-    </div>
-    <span>{value}%</span>
-  </div>
-);
+// const CategoryItem = ({ color, value, heading }: CategoryItemProps) => (
+//   <div className="category-item">
+//     <h5>{heading}</h5>
+//     <div>
+//       <div
+//         style={{
+//           backgroundColor: color,
+//           width: `${value}%`,
+//         }}
+//       ></div>
+//     </div>
+//     <span>{value}%</span>
+//   </div>
+// );
 
 export default Dashboard;

@@ -1,4 +1,4 @@
-import { useState, ChangeEvent, useEffect } from "react";
+import { useEffect } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AdminSidebar from "../components/AdminSidebar";
@@ -13,6 +13,7 @@ const NewCategory = () => {
 
   useEffect(() => {
     dispatch(fetchCategoriesStart())
+    //@ts-ignore
     dispatch(fetchCategories());
   }, [dispatch]);
 

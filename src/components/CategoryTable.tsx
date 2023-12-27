@@ -66,12 +66,12 @@ const CategoryTable: React.FC = () => {
         //@ts-ignore
         dispatch(setRowsPerPageAndFetch(parseInt(event.target.value, 10)));
     };
-    const handleEditClick = (rowData: Category) => {
+    const handleEditClick = (rowData: any) => {
         setEditedRow(rowData);
         console.log("row data", rowData)
         setIsEditModalOpen(true);
     };
-    const handlEDeleteClick = (rowData: Category) => {
+    const handlEDeleteClick = (rowData: any) => {
         setDeleteModalOpen(true);
         console.log("ro data for delete.......", rowData)
         setDeletedRow(rowData)
@@ -80,7 +80,7 @@ const CategoryTable: React.FC = () => {
         setIsEditModalOpen(false);
         setEditedRow(null);
     };
-    const getProductValue = (product: Category, accessor: string) => {
+    const getProductValue = (product: any, accessor: string) => {
         const keys = accessor.split('.'); // Split nested keys
         let value: any = { ...product };
 

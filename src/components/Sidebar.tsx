@@ -46,8 +46,8 @@ const Sidebar: React.FC<SidebarProps> = ({ routes, logo, showSidebar, toggleSide
         <ListItem key={key} className="group">
           <NavLinkRRD
             to={prop.layout + prop.path}
-            tag={NavLinkRRD}
-            activeClassName="active"
+            
+            // activeClassName="active"
             className={`text-sm py-2 px-4 font-medium group flex items-center justify-between text-gray-700 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition duration-300 ease-in-out ${showSidebar ? 'w-full' : 'w-40'
               } ${activeRoute(prop.layout + prop.path)}`}
             style={{
