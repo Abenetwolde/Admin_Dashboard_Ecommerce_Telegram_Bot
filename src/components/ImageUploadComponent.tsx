@@ -1,6 +1,7 @@
 // src/components/ImageUploadComponent.tsx
 import React, { useState } from 'react';
 import axios from 'axios';
+import api from '../services/api';
 
 interface ImageUploadComponentProps {
   onUploadFinish: (imageUrls: string[]) => void;
@@ -23,7 +24,7 @@ const ImageUploadComponent: React.FC<ImageUploadComponentProps> = ({ onUploadFin
       }
 
       try {
-        const response = await axios.post('http://localhost:8000/api/product/upload', formData);
+        const response = await api.post('product/upload', formData);
         console.log('Images uploaded successfully!');
         
         // Call the onUploadFinish callback with the received image URLs

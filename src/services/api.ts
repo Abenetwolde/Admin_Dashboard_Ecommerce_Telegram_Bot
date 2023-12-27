@@ -1,8 +1,10 @@
-// src/services/api.ts
 import axios from 'axios';
 
+// Define the base URL based on the environment
+const baseURL = process.env.NODE_ENV === 'production' ? process.env.PURL : process.env.PURL;
+console.log("baseURL",baseURL)
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api', // Adjust the URL based on your server
+  baseURL:baseURL,
 });
 
 export default api;

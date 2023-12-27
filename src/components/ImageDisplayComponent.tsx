@@ -6,7 +6,8 @@ interface ImageDisplayComponentProps {
 }
 
 const ImageDisplayComponent: React.FC<ImageDisplayComponentProps> = ({ imageUrls }) => {
-    const backendDomain = 'http://localhost:8000';
+  
+    const backendDomain = 'https://backend-vg1d.onrender.com';
     console.log('Image URLs:', imageUrls.map(url => backendDomain + url));
   return (
     <div>

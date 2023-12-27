@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { DeleteConfirmationModalProps,ApiResponse  } from '../types/Category';
 import { deleteCategorySuccess } from '../redux/categorySlice';
 import { useDispatch } from 'react-redux';
+import api from '../services/api';
 const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
     isOpen,
     handleClose,
@@ -14,8 +15,8 @@ const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
     const dispatch = useDispatch();
   const handleConfirmDelete = async () => {
     try {
-      const response = await axios.delete<ApiResponse>(
-        `http://localhost:5000/api/deleteCategory/${deleteItemId?._id}`
+      const response = await api.delete<ApiResponse>(
+        `deleteCategory/${deleteItemId?._id}`
       );
       if (response.data.success) {
         toast.success(`${deleteItemId?.name}Category deleted successfully!`);

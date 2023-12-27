@@ -1,11 +1,12 @@
 // productSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import api from '../services/api';
 
 
 // Create an async thunk for creating a product
 export const createProduct = createAsyncThunk('products/create', async (productData) => {
-  const response = await axios.post('http://localhost:5000/api/createproduct', productData);
+  const response = await api.post('createproduct', productData);
   return response.data; // Assuming the server returns the created product
 });
 
