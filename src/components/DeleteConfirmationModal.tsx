@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
-import axios from 'axios';
+
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { DeleteConfirmationModalProps,ApiResponse  } from '../types/Category';

@@ -1,4 +1,4 @@
-import axios from 'axios';
+
 import api from './api';
 
 export const createCategory = async (name: string, icon: string) => {
