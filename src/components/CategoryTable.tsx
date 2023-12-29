@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../app/store';
 import { Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow } from '@mui/material';
-import { setRowsPerPageAndFetch, setPageAndFetch } from '../redux/categorySlice';
+import { setRowsPerPageAndFetch, setPageAndFetch,fetchCategories, fetchCategoriesStart } from '../redux/categorySlice';
 import { Category } from '../types/Category';
 import DeleteConfirmationModal from './DeleteConfirmationModal';
 import EditModal from './EditModal';
@@ -91,6 +91,11 @@ const CategoryTable: React.FC = () => {
         return value;
     };
 
+    // useEffect(() => {
+    //     dispatch(fetchCategoriesStart())
+    //     //@ts-ignore
+    //      dispatch(fetchCategories());
+    //   }, [dispatch]);
     return (
         <>
             <EditModal

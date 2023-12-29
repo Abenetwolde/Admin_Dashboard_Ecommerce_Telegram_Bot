@@ -39,7 +39,8 @@ const NewCategoryForm: React.FC = () => {
 
   return (
     <>
-      <form onSubmit={handleSubmit} className="mb-8">
+    <div  className="mb-8 absolute  top-10 flex-col align-center justify-center mx-auto w-full">
+    <form onSubmit={handleSubmit} className="flex-col align-center bg-white justify-center mx-auto w-1/2 ">
         <h2 className="text-2xl font-bold mb-4">New Category</h2>
         <div className="mb-4">
           <label className="block text-gray-700">Name</label>
@@ -65,10 +66,12 @@ const NewCategoryForm: React.FC = () => {
         <button type="submit" className="bg-blue-500 text-white p-2">
           {loading ? "Creating..." : "Create"}
         </button>
-
-      </form>
-      <ImageUploadComponent onUploadFinish={handleUploadFinish} />
+        <ImageUploadComponent onUploadFinish={handleUploadFinish} />
       {uploadedImageUrls.length > 0 && <ImageDisplayComponent imageUrls={uploadedImageUrls} />}
+      </form>
+    </div>
+  
+
     </>
     // your form JSX here
   );

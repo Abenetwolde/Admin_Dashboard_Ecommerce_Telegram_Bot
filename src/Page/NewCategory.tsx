@@ -18,18 +18,19 @@ const NewCategory = () => {
   }, [dispatch]);
 
   return (
-    <div className="admin-container">
+    <div className="">
 
-      <AdminSidebar />
+      {/* <AdminSidebar /> */}
       <div className=" mx-auto my-8 p-4">
         <NewCategoryForm />
 
-        <div className="max-w-full overflow-x-auto">
+
+      </div>
+      <div className="max-w-full overflow-x-auto">
+     
           <CategoryTable />
 
         </div>
-      </div>
-
       <ToastContainer />
     </div>
   );

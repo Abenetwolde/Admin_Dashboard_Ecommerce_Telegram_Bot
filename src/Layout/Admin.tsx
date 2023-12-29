@@ -23,7 +23,7 @@ const AdminLayout = () => {
   };
 
   return (
-    <div className=" relative flex h-screen w-screen bg-gray-100">
+    <div className=" relative flex w-screen bg-red-700">
       {/* Sidebar */}
       <div
         className={`w-${showSidebar ? '1/6' : '20'} flex-shrink-0 bg-gray-200 text-white overflow-hidden ransition-width duration-300 ease-in-out`}
@@ -46,7 +46,7 @@ const AdminLayout = () => {
       {/* Main Content Area */}
       <div className="flex flex-col flex-1 w-full bg-red-400 ">
         <AdminNavbar selectedCategory={selectedCategory || defaultSelectedCategory} />
-        <div className="flex flex-col flex-1 overflow-hidden  bg-amber-400">
+        <div className="flex flex-col flex-1   bg-amber-400">
           {/* Main Content */}
           <div >
             <Outlet />
