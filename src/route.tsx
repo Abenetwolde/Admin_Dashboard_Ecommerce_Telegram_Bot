@@ -1,20 +1,9 @@
-// import Login from 'views/Login.jsx'
-// import Category from 'views/Category.jsx'
-// import Food from './views/Food'
-// import Orders from './views/Orders'
-// import Configuration from './views/Configuration'
-// import Users from './views/Users'
-// import Ratings from './views/Ratings'
-// import ResetPassword from './views/ForgotPassword'
-// import Riders from './views/Riders'
-// import Options from './views/Options'
-// import Addons from './views/Addons'
-// import Coupons from './views/Coupons'
-// import Notifications from './views/Notifications'
-import Test from './Page/Test'
+
 import Dashboard from './Page/Dashboard'
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import TvIcon from '@mui/icons-material/Tv';
+import CategoryIcon from '@mui/icons-material/Category';
+import NewCategory from './Page/NewCategory';
+import FastfoodIcon from '@mui/icons-material/Fastfood';
 // Add other necessary icons from '@mui/icons-material' as needed
 
 const routes = [
@@ -27,10 +16,18 @@ const routes = [
     appearInSidebar: true,
   },
   {
-    path: '/test',
-    name: 'Test',
-    icon: <TvIcon />,
-    component: Test,
+    path: '/category',
+    name: 'Categorys',
+    icon: <CategoryIcon />,
+    component: NewCategory,
+    layout: '/admin',
+    appearInSidebar: true,
+  },
+  {
+    path: '/product',
+    name: 'Food',
+    icon: <FastfoodIcon />,
+    component: NewCategory,
     layout: '/admin',
     appearInSidebar: true,
   },

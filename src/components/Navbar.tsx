@@ -19,26 +19,26 @@ const AdminNavbar: React.FC<AdminNavbarProps> = ({ selectedCategory }) => {
   return (
     <>
       <div
-        className="bg-gradient-to-r  relative h-1/3 from-blue-400 to-blue-300 shadow-none"
+        className="   h-1/9 bg-gradient-to-r  from-gray-50 to-blue-50 shadow-none"
       >
-        <div className="container mx-auto relative">
+        <div className="container mx-auto ">
           <div className="flex items-center">
-            <Link to="/" className="flex items-center text-white no-underline">
-              <h6 className="text-white font-semibold uppercase mr-4 ">
+            <Link to="/" className="flex items-center text-black no-underline">
+              <h6 className="text-balck font-semibold uppercase mr-4 ">
                 {selectedCategory}
               </h6>
             </Link>
 
             <div className="flex-grow" />
 
-            <div className="hidden md:flex items-center mr-1 justify-center relative">
+            <div className="hidden md:flex items-center mr-1 justify-center ">
               <div className="flex items-center gap-2 justify-center">
                 <div
                   aria-label="account of current user"
                   aria-controls="menu-appbar"
                   aria-haspopup="true"
                   onClick={handleMenu}
-                  className="mt-6 w-10 h-10 rounded-full overflow-hidden shadow-lg bg-white focus:outline-none"
+                  className="mt-6 w-10 h-10 rounded-full overflow-hidden shadow-lg bg-white focus:outline-none justify-center align-center"
                 >
                   <img
                     alt="Abnet"
@@ -46,7 +46,7 @@ const AdminNavbar: React.FC<AdminNavbarProps> = ({ selectedCategory }) => {
                     className="w-full h-full object-cover rounded-full"
                   />
                 </div>
-                <h6 className="text-white font-semibold text-center mr-4 ">
+                <h6 className="text-back font-semibold text-center mr-4 ">
                   Abnet
                 </h6>
               </div>

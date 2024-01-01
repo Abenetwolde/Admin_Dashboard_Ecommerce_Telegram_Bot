@@ -39,37 +39,46 @@ const NewCategoryForm: React.FC = () => {
 
   return (
     <>
-    <div  className="mb-8 absolute  top-10 flex-col align-center justify-center mx-auto w-full">
-    <form onSubmit={handleSubmit} className="flex-col align-center bg-white justify-center mx-auto w-1/2 ">
-        <h2 className="text-2xl font-bold mb-4">New Category</h2>
-        <div className="mb-4">
-          <label className="block text-gray-700">Name</label>
-          <input
-            required
-            type="text"
-            placeholder="Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="w-full border p-2"
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700">Emoji</label>
-          <input
-            type="text"
-            placeholder="Emoji"
-            value={icon}
-            onChange={(e) => setIcon(e.target.value)}
-            className="w-full border p-2"
-          />
-        </div>
-        <button type="submit" className="bg-blue-500 text-white p-2">
+<div className="mb-8 flex-col items-start justify-center mx-auto w-full">
+  <form onSubmit={handleSubmit} className="flex-col items-start bg-white justify-center mx-auto w-1/2  shadow-lg">
+    <div className='py-2 px-3'>
+    <h2 className="text-xl font-bold text-left ">New Category</h2>
+    </div>
+  
+    <div className="bg-slate-100 p-3">
+      <div className="mb-4 text-left">
+        <label className="text-gray-800">Name</label>
+        <input
+          required
+          type="text"
+          placeholder="Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          className="w-full border p-2 focus:outline-none focus:shadow-outline"
+        />
+      </div>
+      <div className="mb-4 text-left">
+        <label className="block text-gray-700">Emoji</label>
+        <input
+          type="text"
+          placeholder="Emoji"
+          value={icon}
+          onChange={(e) => setIcon(e.target.value)}
+          className="w-full border p-2 focus:outline-none focus:shadow-outline"
+        />
+      </div>
+      <ImageUploadComponent onUploadFinish={handleUploadFinish} />
+      {uploadedImageUrls.length > 0 && <ImageDisplayComponent imageUrls={uploadedImageUrls} />}
+      <div className="flex justify-end">
+        <button type="submit" className="bg-blue-400 text-white p-2">
           {loading ? "Creating..." : "Create"}
         </button>
-        <ImageUploadComponent onUploadFinish={handleUploadFinish} />
-      {uploadedImageUrls.length > 0 && <ImageDisplayComponent imageUrls={uploadedImageUrls} />}
-      </form>
+      </div>
+      
     </div>
+  </form>
+</div>
+
   
 
     </>

@@ -3,18 +3,21 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 
-import NewCategoryForm from "../components/NewCategory";
+
 import CategoryTable from "../components/CategoryTable";
 import { useDispatch } from "react-redux";
-import { fetchCategories, fetchCategoriesStart } from "../redux/categorySlice";
-const NewCategory = () => {
+
+import CreateNewProdcut from "../components/Prodcut/CreateNewProdcut";
+import { fetchProduct, fetchProductStart } from "../redux/productSlice";
+import ProdcutTable from "../components/Prodcut/ProdcutTable";
+const ProdcutPage = () => {
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchCategoriesStart())
+    dispatch(fetchProductStart())
     //@ts-ignore
-    dispatch(fetchCategories());
+    dispatch(fetchProduct());
   }, [dispatch]);
 
   return (
@@ -22,13 +25,13 @@ const NewCategory = () => {
 
       {/* <AdminSidebar /> */}
       <div  className="mb-8  flex-col align-center justify-center mx-auto w-full">
-        <NewCategoryForm />
+ <CreateNewProdcut/>
 
    
       </div>
       <div className="max-w-full  overflow-x-auto">
      
-     <CategoryTable />
+     <ProdcutTable/>
 
    </div>
       <ToastContainer />
@@ -36,4 +39,4 @@ const NewCategory = () => {
   );
 };
 
-export default NewCategory;
+export default ProdcutPage;

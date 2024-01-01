@@ -4,7 +4,7 @@ import axios from 'axios';
 const baseURL = process.env.NODE_ENV === 'production' ? process.env.PURL : process.env.DURL;
 console.log("baseURL",baseURL)
 const api = axios.create({
-  baseURL:baseURL,
+  baseURL:'http://localhost:8000/api/',
 });
 
 export default api;

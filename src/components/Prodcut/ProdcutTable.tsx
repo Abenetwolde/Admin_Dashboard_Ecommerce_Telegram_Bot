@@ -2,19 +2,19 @@ import React, { useEffect, useState } from 'react';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../app/store';
+import { RootState } from '../../app/store';
 import { Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow } from '@mui/material';
-import { setRowsPerPageAndFetch, setPageAndFetch,fetchCategories, fetchCategoriesStart } from '../redux/categorySlice';
-import { Category } from '../types/Category';
-import DeleteConfirmationModal from './DeleteConfirmationModal';
-import EditModal from './EditModal';
+import { setRowsPerPageAndFetch, setPageAndFetch } from '../../redux/productSlice';
+// import { Category } from '../types/Category';
+import DeleteConfirmationModal from '../DeleteConfirmationModal';
+import EditModal from '../EditModal';
 import {  MutatingDots } from 'react-loader-spinner';
 // import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 
-const CategoryTable: React.FC = () => {
+const ProdcutTable: React.FC = () => {
     const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
-    const [deleteRow, setDeletedRow] = useState<Category | null>(null);
-    const [editedRow, setEditedRow] = useState<Category | null>(null);
+    const [deleteRow, setDeletedRow] = useState< | null>(null);
+    const [editedRow, setEditedRow] = useState< | null>(null);
     const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
     // const [data, setData] = useState<Category[]>([]);
     // const [page, setPage] = useState<number>(0);
@@ -26,35 +26,18 @@ const CategoryTable: React.FC = () => {
         { Header: 'ID', accessor: '_id' },
         {
             accessor: 'name',
-            Header: 'Category Name',
+            Header: 'Product Name',
             Cell: ({ value }: any) => (
                 <div className="flex items-center">
                     {value}
                 </div>
             ),
         },
-        {
-            accessor: 'icon',
-            Header: 'Category Icon',
-            Cell: ({ value }: any) => (
-                <div className="flex items-center">
-
-                    {/* {value && value.icon && typeof value.icon === 'string' ? (
-                <div className="w-5 h-5 rounded-full bg-gray-300 flex items-center justify-center mr-2">
-                  <img src={value.icon} alt="Category Icon" className="w-full h-full rounded-full" />
-                </div>
-              ) : (
-                value.icon
-              )} */}
-                    {value && value}
-
-                </div>
-            ),
-        },
+     
 
     ];
     const dispatch = useDispatch();
-    const categoryState = useSelector((state: RootState) => state.category);
+    const categoryState = useSelector((state: RootState) => state.product);
     console.log('Categories:', categoryState.data);
   
     const handleChangePage = (_event: unknown, newPage: number) => {
@@ -198,4 +181,4 @@ const CategoryTable: React.FC = () => {
     );
 };
 
-export default CategoryTable;
+export default ProdcutTable;

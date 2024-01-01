@@ -9,14 +9,13 @@ import Login from "./components/Login";
 import { RootState } from "./app/store";
 import ProtectedRoute from "./Routes";
 
-import NewProduct from "./Page/NewProduct";
-import Categorys from "./Page/Categorys";
+
 import NewCategory from "./Page/NewCategory";
 
 // import { themeSettings } from "theme";
 import AdminLayout from "./Layout/Admin";
+import ProdcutPage from "./Page/ProdcutPage";
 
-import Category from "./Page/Category";
 // themeSett
 function App() {
   const navigate = useNavigate();
@@ -44,11 +43,9 @@ function App() {
         /> */}
         <Route element={<ProtectedRoute allowedRoles={["ADMIN", "SUPERADMIN"]} />}>
           <Route path="/*" element={<AdminLayout />}>
-          <Route index element={<NewProduct />} />
-          <Route path="admin/dashboard" element={<NewProduct />} />
-          <Route path="admin/test" element={<NewCategory />} />
-          <Route path="categorys" element={<Categorys />} />
-          <Route path="categorys/new" element={<NewCategory />} />
+          <Route path="admin/category" element={<NewCategory />} />
+          <Route path="admin/product" element={<ProdcutPage />} />
+
         </Route>
         </Route>
       </Routes>

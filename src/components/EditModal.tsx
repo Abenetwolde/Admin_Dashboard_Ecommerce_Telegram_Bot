@@ -12,7 +12,7 @@ const EditModal: React.FC<EditModalProps> = ({ isOpen, handleClose, editedRow, s
     const handleUpdate = async () => {
         try {
           // Make an API request to update the category by its ID
-          const response = await api.put<EditApiResponse, any>(`updatecatagory/${editedRow?._id}`, {
+          const response = await api.put<EditApiResponse, any>(`category/updatecategorybyid/${editedRow?._id}`, {
             name: editedRow?.name,
             icon: editedRow?.icon,
             // Add other properties as needed

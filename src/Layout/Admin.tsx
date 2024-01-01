@@ -7,7 +7,7 @@ import routes from '../route.tsx';
 
 const AdminLayout = () => {
   const location = useLocation();
-  const [showSidebar, setShowSidebar] = useState(true);
+  const [showSidebar, setShowSidebar] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   // Handle category selection
   const handleCategorySelect = (category: string) => {
@@ -23,19 +23,19 @@ const AdminLayout = () => {
   };
 
   return (
-    <div className=" relative flex w-screen bg-red-700">
+    <div className=" relative  flex w-screen bg-gradient-to-r  from-gray-50 to-blue-50">
       {/* Sidebar */}
       <div
-        className={`w-${showSidebar ? '1/6' : '20'} flex-shrink-0 bg-gray-200 text-white overflow-hidden ransition-width duration-300 ease-in-out`}
+        className={` w-${showSidebar ? '1/6' : '1/15'}    text-white overflow-hidden duration-300 ease-in-out`}
       >
         {/* Sidebar content goes here. */}
         <Sidebar
           routes={routes}
           logo={{
             innerLink: '/admin/dashboard',
-            imgSrc: 'your-image-source',
+            imgSrc: 'https://th.bing.com/th/id/OIP.Z4NoQEb8sAETU4xYYXcbqAHaHk?rs=1&pid=ImgDetMain',
             imgAlt: 'your-image-alt',
-            title: 'Your Title',
+            title: 'Admin Dashboard',
           }}
           showSidebar={showSidebar}
           toggleSidebar={toggleSidebar}
@@ -44,13 +44,13 @@ const AdminLayout = () => {
       </div>
 
       {/* Main Content Area */}
-      <div className="flex flex-col flex-1 w-full bg-red-400 ">
+      <div className="flex flex-col flex-1 w-full">
         <AdminNavbar selectedCategory={selectedCategory || defaultSelectedCategory} />
-        <div className="flex flex-col flex-1   bg-amber-400">
+        <div className="flex-1 flex-col flex-">
           {/* Main Content */}
-          <div >
+         
             <Outlet />
-          </div>
+          
           {/* Admin Footer */}
           
           {/* Admin Footer */}

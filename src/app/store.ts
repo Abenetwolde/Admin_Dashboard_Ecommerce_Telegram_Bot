@@ -5,11 +5,13 @@ import authReducer from '../features/authSlice';
 
 
 import categoryReducer from '../redux/categorySlice';
+import productSlice from '../redux/productSlice';
 const store = configureStore({
   reducer: {
     auth: authReducer,
   
     category: categoryReducer,
+    product:productSlice
     // [categoryApi.reducerPath]: categoryApi.reducer,
     // [productApi.reducerPath]: productApi.reducer, // Add the categoryApi reducer
     // Add other reducers as needed

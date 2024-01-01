@@ -16,7 +16,7 @@ const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
   const handleConfirmDelete = async () => {
     try {
       const response = await api.delete<ApiResponse>(
-        `deleteCategory/${deleteItemId?._id}`
+        `category/deletecategorybyid/${deleteItemId?._id}`
       );
       if (response.data.success) {
         toast.success(`${deleteItemId?.name}Category deleted successfully!`);

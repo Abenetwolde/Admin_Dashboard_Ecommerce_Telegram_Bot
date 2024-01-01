@@ -3,7 +3,7 @@ import api from './api';
 
 export const createCategory = async (name: string, icon: string) => {
   try {
-    const response = await api.post("createcategory", { name, icon });
+    const response = await api.post("category/create", { name, icon });
     return response.data.category;
   } catch (error) {
     console.error("Error creating category:", error);
@@ -13,7 +13,7 @@ export const createCategory = async (name: string, icon: string) => {
 
 export const getCategoryList = async (page: number, rowsPerPage: number) => {
   try {
-    const response = await api.get(`getcategorys?page=${page + 1}&pageSize=${rowsPerPage}&sortBy=latest`);
+    const response = await api.get(`category/getcategories?page=${page + 1}&pageSize=${rowsPerPage}&sortBy=latest`);
     return response.data;
   } catch (error) {
     console.error('Error fetching category data:', error);
