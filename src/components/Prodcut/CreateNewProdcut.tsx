@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import TextField from '@mui/material/TextField';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { ToastContainer, toast } from 'react-toastify';
@@ -7,7 +7,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import api from '../../services/api';
 import { createProduct } from '../../services/product';
 import { useDispatch } from 'react-redux';
-import { fetchProductSuccess } from '../../redux/productSlice';
+import { createProductSuccess, fetchProductSuccess } from '../../redux/productSlice';
+import { Category } from '../../types/product';
+import { Autocomplete } from '@mui/material';
+import { getCategoryList } from '../../services/category';
+import { ApiResponse, CategoryApi } from '../../types/Category';
 
 interface ImagePreview {
     file: File;
@@ -20,7 +24,8 @@ const CreateNewProduct: React.FC = () => {
     const [highlights, setHighlights] = useState<string[]>([]);
     const [highlightInput, setHighlightInput] = useState<string>('');
     const [name, setName] = useState<string>('');
-    const [category, setCategory] = useState<string>('659275a40385c98f668d3bc5');
+    const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
+    const [categories, setCategories] = useState<Category[]>([]);
     const [description, setDescription] = useState<string>('');
     const [price, setPrice] = useState<number>(0);
     const [selectedImages, setSelectedImages] = useState<ImagePreview[]>([]);
@@ -84,12 +89,27 @@ const CreateNewProduct: React.FC = () => {
             description,
             price,
             highlights,
-            category
+            category: selectedCategory._id,
             // Add other fields as needed
         };
-        const response= await createProduct(productData)
-        dispatch(fetchProductSuccess(response));
+
+        const response = await createProduct(productData)
+        dispatch(createProductSuccess(response));
+        console.log("prodcut data",response)
     };
+    useEffect(() => {
+        const fetchCategoryData = async () => {
+            try {
+                const categoryData: ApiResponse = await  api.get(`category/getcategories?&sortBy=latest`);;
+                setCategories(categoryData?.data?.categorys);
+                console.log( "category...............",categoryData?.data?.categorys)
+            } catch (error) {
+                console.error('Error fetching categories:', error);
+            }
+        };
+
+        fetchCategoryData();
+    }, []);
 
     return (
         <>
@@ -115,7 +135,13 @@ const CreateNewProduct: React.FC = () => {
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
                         />
-
+                        <Autocomplete
+                            options={categories}
+                            getOptionLabel={(option) => option.name}
+                            onChange={(_event, newValue) => setSelectedCategory(newValue)}
+                            value={selectedCategory}
+                            renderInput={(params) => <TextField {...params} label="Category" />}
+                        />
                         <TextField
                             label="Price"
                             type="number"
@@ -128,7 +154,7 @@ const CreateNewProduct: React.FC = () => {
                             }}
                             required
                             value={price}
-                            onChange={(e:any) => setPrice(e.target.value)}
+                            onChange={(e: any) => setPrice(e.target.value)}
                         />
 
 

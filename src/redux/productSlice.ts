@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk } from '../app/store';
 import {  getCategoryList } from '../services/category';
 import { getProductList } from '../services/product';
-
+import { Product } from '../types/product';
 interface Category {
   _id: string;
   category: {
@@ -12,8 +12,8 @@ interface Category {
   };
 }
 
-interface CategoryState {
-  data: Category[];
+interface ProdcutState {
+  data: Product[];
   loading: boolean;
   error: string | null;
   page: number;
@@ -22,7 +22,7 @@ interface CategoryState {
   totalRows: number;
 }
 
-const initialState: CategoryState = {
+const initialState: ProdcutState = {
   data: [],
   loading: false,
   error: null,
@@ -40,7 +40,7 @@ const productSlice = createSlice({
       state.loading = true;
       state.error = null;
     },
-    createProductSuccess(state, action: PayloadAction<Category>) {
+    createProductSuccess(state, action: PayloadAction<Product>) {
       state.data.unshift(action.payload);
       state.totalRows += 1;
     },
@@ -52,7 +52,7 @@ const productSlice = createSlice({
       state.rowsPerPage = action.payload.pageSize;
       state.totalPages = action.payload.totalPages;
     },
-    updateProductSuccess(state, action: PayloadAction<Category>) {
+    updateProductSuccess(state, action: PayloadAction<Product>) {
       const updatedCategory = action.payload;
       const index = state.data.findIndex((category) => category._id === updatedCategory._id);
 

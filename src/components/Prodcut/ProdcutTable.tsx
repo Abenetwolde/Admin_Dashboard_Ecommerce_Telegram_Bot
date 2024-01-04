@@ -8,18 +8,21 @@ import { setRowsPerPageAndFetch, setPageAndFetch } from '../../redux/productSlic
 // import { Category } from '../types/Category';
 import DeleteConfirmationModal from '../DeleteConfirmationModal';
 import EditModal from '../EditModal';
-import {  MutatingDots } from 'react-loader-spinner';
+import { MutatingDots } from 'react-loader-spinner';
+import EditProdcut from './EditProdcut';
+import { Product } from '../../types/product';
+import DeleteProduct from './DeleteProduct';
 // import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 
 const ProdcutTable: React.FC = () => {
     const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
-    const [deleteRow, setDeletedRow] = useState< | null>(null);
-    const [editedRow, setEditedRow] = useState< | null>(null);
+    const [deleteRow, setDeletedRow] = useState<| null>(null);
+    const [editedRow, setEditedRow] = useState<| null>(null);
     const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
     // const [data, setData] = useState<Category[]>([]);
     // const [page, setPage] = useState<number>(0);
     // const [rowsPerPage, setRowsPerPage] = useState<number>(10);
-    
+
     // const [totalRows, setTotalRows] = useState<number>(0);
     // const [totalPages, setTotalPages] = useState<number>(0);
     const columns = [
@@ -33,15 +36,24 @@ const ProdcutTable: React.FC = () => {
                 </div>
             ),
         },
-     
+        {
+            accessor: 'category',
+            Header: 'Category Name',
+            Cell: ({ value }: any) => (
+                <div className="flex items-center">
+                    {value.name}
+                </div>
+            ),
+        },
+
 
     ];
     const dispatch = useDispatch();
     const categoryState = useSelector((state: RootState) => state.product);
-    console.log('Categories:', categoryState.data);
-  
+    console.log('Categories:', categoryState);
+
     const handleChangePage = (_event: unknown, newPage: number) => {
-          //@ts-ignore
+        //@ts-ignore
         dispatch(setPageAndFetch(newPage));
     };
 
@@ -81,18 +93,19 @@ const ProdcutTable: React.FC = () => {
     //   }, [dispatch]);
     return (
         <>
-            <EditModal
+
+            <EditProdcut
                 isOpen={isEditModalOpen}
                 handleClose={handleCloseEditModal}
                 editedRow={editedRow}
                 setEditedRow={setEditedRow}
-
             />
-            <DeleteConfirmationModal
-                isOpen={deleteModalOpen}
-                handleClose={() => setDeleteModalOpen(false)}
-                deleteItemId={deleteRow}
-            />
+<DeleteProduct
+         isOpen={deleteModalOpen}
+         handleClose={() => setDeleteModalOpen(false)}
+         deletedItem={deleteRow}
+/>
+         
             <div>
                 {
                     !categoryState.loading ?
@@ -111,21 +124,21 @@ const ProdcutTable: React.FC = () => {
                                     </TableHead>
 
                                     <TableBody>
-                               
-                                        {categoryState.data.map((product, index) => (
+
+                                        {categoryState?.data &&categoryState?.data.map((product, index) => (
                                             <TableRow
                                                 key={product._id}
                                                 className={index % 2 === 0 ? 'bg-blue-50' : 'bg-white'}
                                             >
                                                 {columns.map((column) => (
                                                     <TableCell key={column.accessor} className={`p-2`}>
-                                                        {column.Cell ? column.Cell({ value: product[column.accessor as keyof Category] }) : getProductValue(product, column.accessor)}
+                                                        {column.Cell ? column.Cell({ value: product[column.accessor as keyof Product] }) : getProductValue(product, column.accessor)}
                                                     </TableCell>
                                                 ))}
-                                              
+
                                                 <TableCell className="p-2">
                                                     <div className="flex justify-between items-center gap-1">
-                                                         
+
                                                         <button onClick={() => handleEditClick(product)} className="text-blue-600 hover:bg-blue-200 p-1 rounded-full bg-blue-100">
                                                             <EditIcon />
                                                         </button>
