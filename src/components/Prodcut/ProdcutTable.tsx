@@ -19,12 +19,7 @@ const ProdcutTable: React.FC = () => {
     const [deleteRow, setDeletedRow] = useState<| null>(null);
     const [editedRow, setEditedRow] = useState<| null>(null);
     const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
-    // const [data, setData] = useState<Category[]>([]);
-    // const [page, setPage] = useState<number>(0);
-    // const [rowsPerPage, setRowsPerPage] = useState<number>(10);
 
-    // const [totalRows, setTotalRows] = useState<number>(0);
-    // const [totalPages, setTotalPages] = useState<number>(0);
     const columns = [
         { Header: 'ID', accessor: '_id' },
         {
@@ -37,15 +32,84 @@ const ProdcutTable: React.FC = () => {
             ),
         },
         {
+            accessor: 'images',
+            Header: 'Product Images',
+            Cell: ({ value }: any) => (
+                <div className="flex items-center">
+                    <div className="flex items-center gap-2">
+                        {value.map((imageUrl: string, index: number) => (
+                            <img
+                                key={index}
+                                src={`http://localhost:8000${imageUrl}`}
+                                alt={`Product Image ${index}`}
+                                className="rounded-full h-8 w-8 object-cover"
+                            />
+                        ))}
+                    </div>
+                </div>
+            ),
+        },
+        {
             accessor: 'category',
             Header: 'Category Name',
             Cell: ({ value }: any) => (
                 <div className="flex items-center">
-                    {value.name}
+                    {value?.name}
                 </div>
             ),
         },
-
+        {
+            accessor: 'price',
+            Header: 'Price',
+            Cell: ({ value }: any) => (
+                <div className="flex items-center">
+                    {value}
+                </div>
+            ),
+        },
+   
+        {
+            accessor: 'description',
+            Header: 'Description',
+            Cell: ({ value }: any) => (
+              <div className="flex items-center">
+                {value.length > 20 ? (
+                  <div title={value} className="flex items-center">
+                    {value.slice(0, 20)}...
+                  </div>
+                ) : (
+                  <div>{value}</div>
+                )}
+              </div>
+            ),
+          },
+          {
+            accessor: 'highlights',
+            Header: 'Highlights',
+            Cell: ({ value }: any) => (
+                <div className="flex items-center">
+                    {value.map((v:any)=><p>#{v}, </p>)}
+                </div>
+            ),
+        },
+          {
+            accessor: 'orderQuantity',
+            Header: 'Order Quantity',
+            Cell: ({ value }: any) => (
+                <div className="flex items-center">
+                    {value}
+                </div>
+            ),
+        },
+          {
+            accessor: 'available',
+            Header: 'Available',
+            Cell: ({ value }: any) => (
+              <div className={`flex items-center ${value ? 'text-green-500' : 'text-red-500'}`}>
+                {value ? 'Available' : 'Not Available'}
+              </div>
+            ),
+          },
 
     ];
     const dispatch = useDispatch();
@@ -100,12 +164,12 @@ const ProdcutTable: React.FC = () => {
                 editedRow={editedRow}
                 setEditedRow={setEditedRow}
             />
-<DeleteProduct
-         isOpen={deleteModalOpen}
-         handleClose={() => setDeleteModalOpen(false)}
-         deletedItem={deleteRow}
-/>
-         
+            <DeleteProduct
+                isOpen={deleteModalOpen}
+                handleClose={() => setDeleteModalOpen(false)}
+                deletedItem={deleteRow}
+            />
+
             <div>
                 {
                     !categoryState.loading ?
@@ -125,7 +189,7 @@ const ProdcutTable: React.FC = () => {
 
                                     <TableBody>
 
-                                        {categoryState?.data &&categoryState?.data.map((product, index) => (
+                                        {categoryState?.data && categoryState?.data.map((product, index) => (
                                             <TableRow
                                                 key={product._id}
                                                 className={index % 2 === 0 ? 'bg-blue-50' : 'bg-white'}

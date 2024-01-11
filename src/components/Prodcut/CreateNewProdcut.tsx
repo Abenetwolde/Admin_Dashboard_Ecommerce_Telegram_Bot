@@ -90,6 +90,7 @@ const CreateNewProduct: React.FC = () => {
             price,
             highlights,
             category: selectedCategory._id,
+            images:uploadedImages
             // Add other fields as needed
         };
 
@@ -184,7 +185,7 @@ const CreateNewProduct: React.FC = () => {
                         <div className="flex gap-2 overflow-x-auto h-32 border rounded">
                             {uploadedImages.length > 0 ? (
                                 uploadedImages.map((imageUrl, index) => (
-                                    <img key={index} src={imageUrl} alt={`Uploaded ${index}`} />
+                                    <img key={index} src={`http://localhost:8000/${imageUrl}`} alt={`Uploaded ${index}`} />
                                 ))
                             ) : (
                                 selectedImages.length > 0 && (
@@ -215,7 +216,7 @@ const CreateNewProduct: React.FC = () => {
                             <input
                                 form="mainform"
                                 type="submit"
-                                className="bg-primary-orange uppercase w-1/3 p-3 text-white font-medium rounded shadow hover:shadow-lg cursor-pointer"
+                                className="bg-primary-orange uppercase w-1/3 p-3 text-blue font-medium rounded shadow hover:shadow-lg cursor-pointer"
                                 value="Submit"
                             />
                         </div>
