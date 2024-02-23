@@ -16,12 +16,12 @@ const Login: React.FC = () => {
     e.preventDefault();
 
     try {
-      const response = await api.post('/adminlogin', { email, password });
+      const response = await api.post('user/adminlogin', { email, password });
 // console.log(response.data.User.token)
       if (response.data.User) {
         dispatch(setUser(response.data.User));
         localStorage.setItem('user', JSON.stringify(response.data.User));
-        navigate("/");
+        navigate("/admin/dashboard");
       } else {
         setError('Invalid credentials');
       }

@@ -3,8 +3,16 @@ import { toast } from 'react-toastify';
 import api from './api';
 
 export const createProduct = async (product:any) => {
-  try {
-    const response = await api.post("product/create", product);
+  try {        
+
+    // const formDataObject = {};
+    // product.forEach((value, key) => {
+    //     formDataObject[key] = value;
+    // });
+    
+    // console.log("Product Object.............", formDataObject);
+    // const config:any = { header: { "Content-Type": "application/json" } }
+    const response = await api.post("product/create", product );
     if(response.data.success)
     {
         toast.success('Product created successfully!');

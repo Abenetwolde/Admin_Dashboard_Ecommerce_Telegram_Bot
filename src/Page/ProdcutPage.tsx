@@ -1,10 +1,6 @@
 import { useEffect } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
-
-
-import CategoryTable from "../components/CategoryTable";
 import { useDispatch } from "react-redux";
 
 import CreateNewProdcut from "../components/Prodcut/CreateNewProdcut";

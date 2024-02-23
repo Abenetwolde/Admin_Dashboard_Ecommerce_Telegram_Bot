@@ -3,27 +3,107 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../app/store';
-import { Avatar, Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow } from '@mui/material';
-import { setRowsPerPageAndFetch, setPageAndFetch } from '../../redux/productSlice';
-
+import { Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow } from '@mui/material';
+import { setRowsPerPageAndFetch, setPageAndFetch } from '../../redux/payment';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery'
 import { MutatingDots } from 'react-loader-spinner';
-import EditProdcut from './EditProdcut';
+// import EditProdcut from './EditProdcut';
 import { Product } from '../../types/product';
-import DeleteProduct from './DeleteProduct';
-import DeleteUser from '../User/DeleteUser';
+// import EditOrder from './EditOrder';
+import Scrollbar from '../scrollbar';
+// import DeleteProduct from './DeleteProduct';
+// import DeleteUser from '../User/DeleteUser';
 // import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 
-const ProdcutTable: React.FC = () => {
+const PaymentTable: React.FC = () => {
     const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
     const [deleteRow, setDeletedRow] = useState<| null>(null);
     const [editedRow, setEditedRow] = useState<| null>(null);
     const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
-
+    const getStatusColor = (status: string) => {
+        switch (status) {
+            case 'pending'||'Cash':
+                return 'bg-orange-400';
+            case 'completed':
+                return 'bg-green-400';
+            case 'cancelled':
+                return 'bg-red-400';
+            case 'delivered':
+                return 'bg-blue-400';
+            default:
+                return '';
+        }
+    };
+    const getStatusColorType = (status: string) => {
+        switch (status) {
+            case 'Cash'||'cash':
+                return 'bg-orange-400';
+            case 'online'||'Online':
+                return 'bg-green-400';
+            case 'cancelled':
+                return 'bg-red-400';
+            case 'delivered':
+                return 'bg-blue-400';
+            default:
+                return '';
+        }
+    };
     const columns = [
-        { Header: 'ID', accessor: '_id' },
+        { Header: 'UserID', accessor: 'telegramid' },
+    
         {
-            accessor: 'name',
-            Header: 'Product Name',
+            accessor: 'user',
+            Header: 'User Name',
+            Cell: ({ value }: any) => (
+                <div className="flex items-center">
+
+                    <span>
+                        {value?.username}
+                    </span>
+
+                </div>
+            ),
+        },
+        {
+            accessor: 'user',
+            Header: 'User First Name',
+            Cell: ({ value }: any) => (
+                <div className="flex items-center">
+
+                    <span>
+                        {value?.first_name}
+                    </span>
+
+                </div>
+            ),
+        },
+     
+
+
+
+        {
+            accessor: 'total_amount',
+            Header: 'TotalAmount',
+            Cell: ({ value }: any) => (
+                <div className="flex items-center">
+                    <p>{value/100}</p>
+                </div>
+            ),
+        },
+        
+        {
+            accessor: 'invoice_id',
+            Header: 'Invoice Id',
+            Cell: ({ value }: any) => (
+                <div className="flex items-center">
+                    <p>{value}</p>
+                </div>
+            ),
+        },
+        {
+            accessor: 'telegram_payment_charge_id',
+            Header: 'telegram_payment_charge_id',
             Cell: ({ value }: any) => (
                 <div className="flex items-center">
                     {value}
@@ -31,94 +111,47 @@ const ProdcutTable: React.FC = () => {
             ),
         },
         {
-            accessor: 'images',
-            Header: 'Product Images',
-            Cell: ({ value }: any) => {
-                return (
-                  <div className="flex items-center gap-2">
-                    {value.slice(0, 2).map((imageUrl: any, index: number) => (
-                      <Avatar
-                        key={index}
-                        alt={`Product Image ${index}`}
-                        src={imageUrl?.imageUrl}
-                        className="rounded-full h-8 w-8 object-cover"
-                      />
-                    ))}
-                    {value.length > 2 && (
-                      <Avatar className="rounded-full h-8 w-8 flex items-center justify-center">
-                        {`+${value.length - 2}`}
-                      </Avatar>
-                    )}
-                  </div>
-                );
-              },
-        },
-        {
-            accessor: 'category',
-            Header: 'Category Name',
+            accessor: 'order',
+            Header: 'Payment Status',
             Cell: ({ value }: any) => (
-                <div className="flex items-center">
-                    {value?.name}
+                <div className={`flex items-center justify-center p-1 rounded-md text-white ${getStatusColor(value?.paymentStatus)}`}>
+                    {value?.paymentStatus}
                 </div>
             ),
         },
         {
-            accessor: 'price',
-            Header: 'Price',
+            accessor: 'order',
+            Header: 'Payment Method',
             Cell: ({ value }: any) => (
-                <div className="flex items-center">
+                <div className={`flex items-center justify-center p-1 rounded-md text-white ${getStatusColorType(value?.paymentType)}`}>
+                    {value?.paymentType}
+                </div>
+            ),
+        },
+        {
+            accessor: 'createdAt',
+            Header: 'createdAt',
+            Cell: ({ value }: any) => (
+                <div className={`flex items-center`}>
                     {value}
                 </div>
             ),
         },
-   
-        {
-            accessor: 'description',
-            Header: 'Description',
-            Cell: ({ value }: any) => (
-              <div className="flex items-center">
-                {value.length > 20 ? (
-                  <div title={value} className="flex items-center">
-                    {value.slice(0, 20)}...
-                  </div>
-                ) : (
-                  <div>{value}</div>
-                )}
-              </div>
-            ),
-          },
-          {
-            accessor: 'highlights',
-            Header: 'Highlights',
-            Cell: ({ value }: any) => (
-                <div className="flex items-center">
-                    {value.map((v:any)=><p>#{v}, </p>)}
-                </div>
-            ),
-        },
-          {
-            accessor: 'orderQuantity',
-            Header: 'Order Quantity',
-            Cell: ({ value }: any) => (
-                <div className="flex items-center">
-                    {value}
-                </div>
-            ),
-        },
-          {
-            accessor: 'available',
-            Header: 'Available',
-            Cell: ({ value }: any) => (
-              <div className={`flex items-center ${value ? 'text-green-500' : 'text-red-500'}`}>
-                {value ? 'Available' : 'Not Available'}
-              </div>
-            ),
-          },
+      
+        //   {
+        //     accessor: 'createdAt',
+        //     Header: 'createdAt',
+        //     Cell: ({ value }: any) => (
+        //       <div className={`flex items-center ${value ? 'text-green-500' : 'text-red-500'}`}>
+        //         {value ? 'Available' : 'Not Available'}
+        //       </div>
+        //     ),
+        //   },
 
     ];
     const dispatch = useDispatch();
-    const categoryState = useSelector((state: RootState) => state.product);
-    console.log('Categories:', categoryState);
+    const categoryState = useSelector((state: RootState) => state.payment);
+    console.log('Categories:', categoryState.data);
 
     const handleChangePage = (_event: unknown, newPage: number) => {
         //@ts-ignore
@@ -153,6 +186,8 @@ const ProdcutTable: React.FC = () => {
 
         return value;
     };
+    const theme = useTheme();
+    const isTablet = useMediaQuery(theme.breakpoints.down('md')) // Adjust breakpoint as needed
 
     // useEffect(() => {
     //     dispatch(fetchCategoriesStart())
@@ -162,25 +197,32 @@ const ProdcutTable: React.FC = () => {
     return (
         <>
 
-            <EditProdcut
+
+
+            {/* <EditOrder
                 isOpen={isEditModalOpen}
                 handleClose={handleCloseEditModal}
                 editedRow={editedRow}
                 setEditedRow={setEditedRow}
-            />
-            <DeleteUser
-               isOpen={deleteModalOpen}
-               handleClose={() => setDeleteModalOpen(false)}
-               deletedItem={deleteRow} 
-            />
-         
+            /> */}
+            {/* <DeleteUser
+            //    isOpen={deleteModalOpen}
+            //    handleClose={() => setDeleteModalOpen(false)}
+            //    deletedItem={deleteRow} 
+            // /> */}
 
-            <div>
+
+          
                 {
                     !categoryState.loading ?
                         (
-                            <TableContainer component={Paper} className="overflow-auto ">
-                                <Table sx={{ maxWidth: 1300 }} aria-label="product table" className="border-collapse align-center justify-center mx-auto">
+                        //  <Scrollbar>
+                            <TableContainer      sx={{
+                                width: { xs: '100%', md: isTablet ? '100%' : '1300px', lg: '1400px' },
+                                marginX: { xs: 1, md: isTablet ? 1 : 4, lg: 1 },
+                                flexGrow: 1
+                            }}component={Paper} className="overflow-auto mx-auto ">
+                                <Table sx={{ maxWidth: 1000 }} aria-label="product table" className="border-collapse align-center justify-center mx-auto">
                                     <TableHead className="bg-blue-200 !text-white">
                                         <TableRow>
                                             {columns.map((column) => (
@@ -188,7 +230,7 @@ const ProdcutTable: React.FC = () => {
                                                     {column.Header}
                                                 </TableCell>
                                             ))}
-                                            <TableCell className="p-2">Actions</TableCell>
+                                            {/* <TableCell className="p-2">Actions</TableCell> */}
                                         </TableRow>
                                     </TableHead>
 
@@ -205,7 +247,7 @@ const ProdcutTable: React.FC = () => {
                                                     </TableCell>
                                                 ))}
 
-                                                <TableCell className="p-2">
+                                                {/* <TableCell className="p-2">
                                                     <div className="flex justify-between items-center gap-1">
 
                                                         <button onClick={() => handleEditClick(product)} className="text-blue-600 hover:bg-blue-200 p-1 rounded-full bg-blue-100">
@@ -215,7 +257,7 @@ const ProdcutTable: React.FC = () => {
                                                             <DeleteIcon />
                                                         </button>
                                                     </div>
-                                                </TableCell>
+                                                </TableCell> */}
                                             </TableRow>
                                         ))}
                                     </TableBody>
@@ -235,32 +277,33 @@ const ProdcutTable: React.FC = () => {
                                     </TableFooter>
                                 </Table>
                             </TableContainer>
-                        ) :
+                      /* </Scrollbar> */
+            ) :
 
-                        (
-                            <div className="flex justify-center items-center h-full">
-                                <MutatingDots
-                                    height="100"
-                                    width="100"
-                                    color="#add8e6"  // Light Blue
-                                    secondaryColor="#ffcccb"  // Light Red
-                                    radius="12.5"
-                                    ariaLabel="mutating-dots-loading"
-                                    wrapperStyle={{}}
-                                    wrapperClass=""
-                                    visible={true}
-                                />
+            (
+            <div className="flex justify-center items-center h-full">
+                <MutatingDots
+                    height="100"
+                    width="100"
+                    color="#add8e6"  // Light Blue
+                    secondaryColor="#ffcccb"  // Light Red
+                    radius="12.5"
+                    ariaLabel="mutating-dots-loading"
+                    wrapperStyle={{}}
+                    wrapperClass=""
+                    visible={true}
+                />
 
-                            </div>
+            </div>
                         )}
 
 
-                <div>
+            <div>
 
-                </div>
             </div>
+     
         </>
     );
 };
 
-export default ProdcutTable;
+export default PaymentTable;

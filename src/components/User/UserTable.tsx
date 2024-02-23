@@ -3,17 +3,16 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../app/store';
-import { Avatar, Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow } from '@mui/material';
-import { setRowsPerPageAndFetch, setPageAndFetch } from '../../redux/productSlice';
+import { Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow } from '@mui/material';
+import { setRowsPerPageAndFetch, setPageAndFetch } from '../../redux/userSlice';
 
 import { MutatingDots } from 'react-loader-spinner';
-import EditProdcut from './EditProdcut';
+import EditProdcut from './EditUser';
 import { Product } from '../../types/product';
-import DeleteProduct from './DeleteProduct';
-import DeleteUser from '../User/DeleteUser';
+import DeleteProduct from './DeleteUser';
 // import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 
-const ProdcutTable: React.FC = () => {
+const UserTable: React.FC = () => {
     const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
     const [deleteRow, setDeletedRow] = useState<| null>(null);
     const [editedRow, setEditedRow] = useState<| null>(null);
@@ -22,106 +21,99 @@ const ProdcutTable: React.FC = () => {
     const columns = [
         { Header: 'ID', accessor: '_id' },
         {
-            accessor: 'name',
-            Header: 'Product Name',
+            accessor: 'telegramid',
+            Header: 'Telegram ID',
             Cell: ({ value }: any) => (
                 <div className="flex items-center">
                     {value}
                 </div>
             ),
         },
+      
         {
-            accessor: 'images',
-            Header: 'Product Images',
-            Cell: ({ value }: any) => {
-                return (
-                  <div className="flex items-center gap-2">
-                    {value.slice(0, 2).map((imageUrl: any, index: number) => (
-                      <Avatar
-                        key={index}
-                        alt={`Product Image ${index}`}
-                        src={imageUrl?.imageUrl}
-                        className="rounded-full h-8 w-8 object-cover"
-                      />
-                    ))}
-                    {value.length > 2 && (
-                      <Avatar className="rounded-full h-8 w-8 flex items-center justify-center">
-                        {`+${value.length - 2}`}
-                      </Avatar>
-                    )}
-                  </div>
-                );
-              },
-        },
-        {
-            accessor: 'category',
-            Header: 'Category Name',
+            accessor: 'first_name',
+            Header: 'First Name',
             Cell: ({ value }: any) => (
                 <div className="flex items-center">
-                    {value?.name}
+                    {value&&value}
                 </div>
             ),
         },
         {
-            accessor: 'price',
-            Header: 'Price',
+            accessor: 'Last Name',
+            Header: 'last_name',
             Cell: ({ value }: any) => (
                 <div className="flex items-center">
-                    {value}
+                    {value&&value}
+                </div>
+            ),
+        },
+        {
+            accessor: 'username',
+            Header: 'User Name',
+            Cell: ({ value }: any) => (
+                <div className="flex items-center">
+                    {value&&value}
+                </div>
+            ),
+        },
+        {
+            accessor: 'language',
+            Header: 'Language',
+            Cell: ({ value }: any) => (
+                <div className="flex items-center">
+                    {value&&value}
+                </div>
+            ),
+        },
+        {
+            accessor: 'from',
+            Header: 'Registerd From',
+            Cell: ({ value }: any) => (
+                <div className="flex items-center">
+                    {value&&value}
+                </div>
+            ),
+        },
+        {
+            accessor: 'is_bot',
+            Header: 'Is Bot',
+            Cell: ({ value }: any) => (
+                <div className="flex items-center">
+                    {value&&value?"True":"false"}
+                </div>
+            ),
+        },
+        {
+            accessor: 'role',
+            Header: 'Role',
+            Cell: ({ value }: any) => (
+                <div className="flex items-center">
+                    {value&&value}
+                </div>
+            ),
+        },
+        {
+            accessor: 'createdAt',
+            Header: 'createdAt',
+            Cell: ({ value }: any) => (
+                <div className={`flex items-center`}>
+                   {new Date(value).toLocaleString()}
                 </div>
             ),
         },
    
-        {
-            accessor: 'description',
-            Header: 'Description',
-            Cell: ({ value }: any) => (
-              <div className="flex items-center">
-                {value.length > 20 ? (
-                  <div title={value} className="flex items-center">
-                    {value.slice(0, 20)}...
-                  </div>
-                ) : (
-                  <div>{value}</div>
-                )}
-              </div>
-            ),
-          },
-          {
-            accessor: 'highlights',
-            Header: 'Highlights',
-            Cell: ({ value }: any) => (
-                <div className="flex items-center">
-                    {value.map((v:any)=><p>#{v}, </p>)}
-                </div>
-            ),
-        },
-          {
-            accessor: 'orderQuantity',
-            Header: 'Order Quantity',
-            Cell: ({ value }: any) => (
-                <div className="flex items-center">
-                    {value}
-                </div>
-            ),
-        },
-          {
-            accessor: 'available',
-            Header: 'Available',
-            Cell: ({ value }: any) => (
-              <div className={`flex items-center ${value ? 'text-green-500' : 'text-red-500'}`}>
-                {value ? 'Available' : 'Not Available'}
-              </div>
-            ),
-          },
+    
 
     ];
     const dispatch = useDispatch();
-    const categoryState = useSelector((state: RootState) => state.product);
-    console.log('Categories:', categoryState);
+    const user = useSelector((state: RootState) => state.user);
+    console.log('user:', user);
 
     const handleChangePage = (_event: unknown, newPage: number) => {
         //@ts-ignore
+        console.log("niew page....",newPage)
+          //@ts-ignore
         dispatch(setPageAndFetch(newPage));
     };
 
@@ -168,16 +160,15 @@ const ProdcutTable: React.FC = () => {
                 editedRow={editedRow}
                 setEditedRow={setEditedRow}
             />
-            <DeleteUser
-               isOpen={deleteModalOpen}
-               handleClose={() => setDeleteModalOpen(false)}
-               deletedItem={deleteRow} 
+            <DeleteProduct
+                isOpen={deleteModalOpen}
+                handleClose={() => setDeleteModalOpen(false)}
+                deletedItem={deleteRow}
             />
-         
 
             <div>
                 {
-                    !categoryState.loading ?
+                    !user.loading ?
                         (
                             <TableContainer component={Paper} className="overflow-auto ">
                                 <Table sx={{ maxWidth: 1300 }} aria-label="product table" className="border-collapse align-center justify-center mx-auto">
@@ -194,7 +185,7 @@ const ProdcutTable: React.FC = () => {
 
                                     <TableBody>
 
-                                        {categoryState?.data && categoryState?.data.map((product, index) => (
+                                        {user?.data && user?.data.map((product, index) => (
                                             <TableRow
                                                 key={product._id}
                                                 className={index % 2 === 0 ? 'bg-blue-50' : 'bg-white'}
@@ -224,9 +215,9 @@ const ProdcutTable: React.FC = () => {
                                         <TableRow>
                                             <TablePagination
                                                 rowsPerPageOptions={[5, 10, 25]}
-                                                count={categoryState.totalRows}
-                                                rowsPerPage={categoryState.rowsPerPage}
-                                                page={categoryState.page}
+                                                count={user.totalRows}
+                                                rowsPerPage={user.rowsPerPage}
+                                                page={user.page}
                                                 onPageChange={handleChangePage}
                                                 onRowsPerPageChange={handleChangeRowsPerPage}
                                                 className="mx-auto"
@@ -263,4 +254,4 @@ const ProdcutTable: React.FC = () => {
     );
 };
 
-export default ProdcutTable;
+export default UserTable;

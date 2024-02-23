@@ -18,7 +18,7 @@ console.log("alowed",allowedRoles)
         allowroute
             ? <Outlet />
             : token
-                ? <Navigate to="/dashboard" state={{ from: location }} replace />
+                ? <Navigate to="/admin/dashboard" state={{ from: location }} replace />
                 : <Navigate to="/login" state={{ from: location }} replace />
     );
 }

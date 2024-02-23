@@ -1,3 +1,5 @@
+import { Logout, PersonAdd } from '@mui/icons-material';
+import { Avatar, Divider, IconButton,  ListItemIcon, Menu, MenuItem, Tooltip } from '@mui/material';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -7,13 +9,19 @@ interface AdminNavbarProps {
 
 const AdminNavbar: React.FC<AdminNavbarProps> = ({ selectedCategory }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-
-  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
-
   const handleClose = () => {
     setAnchorEl(null);
+  };
+  
+  const handleLogout = () => {
+    // Remove the user from local storage
+    localStorage.removeItem('user');
+    // Perform any additional logout actions, such as redirecting to the login page
+    // For example, you can use history.push('/login') if you're using React Router
   };
 
   return (
@@ -32,45 +40,75 @@ const AdminNavbar: React.FC<AdminNavbarProps> = ({ selectedCategory }) => {
             <div className="flex-grow" />
 
             <div className="hidden md:flex items-center mr-1 justify-center ">
-              <div className="flex items-center gap-2 justify-center">
-                <div
-                  aria-label="account of current user"
-                  aria-controls="menu-appbar"
-                  aria-haspopup="true"
-                  onClick={handleMenu}
-                  className="mt-6 w-10 h-10 rounded-full overflow-hidden shadow-lg bg-white focus:outline-none justify-center align-center"
-                >
-                  <img
-                    alt="Abnet"
-                    src="https://avatars.githubusercontent.com/u/58665822?s=400&u=9df743a470d06bb110b20fd91e53ad93c98f74b2&v=4"
-                    className="w-full h-full object-cover rounded-full"
-                  />
-                </div>
-                <h6 className="text-back font-semibold text-center mr-4 ">
-                  Abnet
-                </h6>
-              </div>
-              {anchorEl && (
-                <div
-                  id="menu-appbar"
-                  className="origin-top-right absolute right-5 mt-3 w-48 h-48 overflow-hidden shadow-lg bg-white rounded-md focus:outline-none"
-                  role="menu"
-                  aria-orientation="vertical"
-                  aria-labelledby="menu-appbar"
-                  style={{ border: '2px solid #87CEEB' }}
-                >
-                  <div className="py-1" role="none">
-                    <button
-                      onClick={handleClose}
-                      className="block px-4 py-10 text-sm text-gray-700 hover:bg-gray-100 rounded-t-md"
-                      role="menuitem"
-                    >
-                      <i className="ni ni-user-run mr-20 !text-blue-300" />
-                      Logout
-                    </button>
-                  </div>
-                </div>
-              )}
+            <Tooltip title="Account settings">
+          <IconButton
+            onClick={handleClick}
+            size="medium"
+            
+            sx={{ ml: 2 ,border:'none'}}
+            aria-controls={open ? 'account-menu' : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? 'true' : undefined}
+          >
+            <Avatar sx={{ width: 32, height: 32 ,border:'none',stroke:"none"}}>A</Avatar>
+          </IconButton>
+        </Tooltip>
+        <Menu
+        anchorEl={anchorEl}
+        id="account-menu"
+        open={open}
+        onClose={handleClose}
+        onClick={handleClose}
+        elevation={0}
+        slotProps=     {{ paper: {  sx: {
+              overflow: 'visible',
+              filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+              mt: 1.5,
+              '& .MuiAvatar-root': {
+                width: 32,
+                height: 32,
+                ml: -0.5,
+                mr: 1,
+              },
+              '&::before': {
+                content: '""',
+                display: 'block',
+                position: 'absolute',
+                top: 0,
+                right: 14,
+                width: 10,
+                height: 10,
+                bgcolor: 'background.paper',
+                transform: 'translateY(-50%) rotate(45deg)',
+                zIndex: 0,
+              },
+            },
+          }}}
+      
+        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+      >
+        {/* <MenuItem onClick={handleClose}>
+          <Avatar /> Profile
+        </MenuItem>
+        <MenuItem onClick={handleClose}>
+          <Avatar /> My account
+        </MenuItem> */}
+        {/* <Divider />
+        <MenuItem onClick={handleClose}>
+          <ListItemIcon>
+            <PersonAdd fontSize="small" />
+          </ListItemIcon>
+          Add another account
+        </MenuItem> */}
+      
+        <MenuItem onClick={handleLogout}>
+          <ListItemIcon>
+            <Logout fontSize="small" />
+          </ListItemIcon>
+          Logout
+        </MenuItem>
+      </Menu>
             </div>
 
 

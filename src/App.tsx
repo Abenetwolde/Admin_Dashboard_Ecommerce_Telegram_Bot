@@ -15,7 +15,10 @@ import NewCategory from "./Page/NewCategory";
 // import { themeSettings } from "theme";
 import AdminLayout from "./Layout/Admin";
 import ProdcutPage from "./Page/ProdcutPage";
-
+import UserPage from "./Page/User";
+import OrdersPage from "./Page/Orders";
+import PaymentPage from "./Page/PaymentPage";
+import Dashboard from "./Page/Dashboard";
 // themeSett
 function App() {
   const navigate = useNavigate();
@@ -27,6 +30,12 @@ function App() {
 
 
   }, [token]);
+
+
+  // Navigate to the dashboard page when the application loads
+  useEffect(() => {
+    navigate('/admin/dashboard', { replace: true });
+  }, []);
 
   // const mode = useSelector((state) => state.global.mode);
   // const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
@@ -43,8 +52,12 @@ function App() {
         /> */}
         <Route element={<ProtectedRoute allowedRoles={["ADMIN", "SUPERADMIN"]} />}>
           <Route path="/*" element={<AdminLayout />}>
+          <Route  path="admin/dashboard" element={<Dashboard/>} />
           <Route path="admin/category" element={<NewCategory />} />
           <Route path="admin/product" element={<ProdcutPage />} />
+          <Route path="admin/user" element={<UserPage />} />
+          <Route path="admin/orders" element={<OrdersPage />} />
+          <Route path="admin/payment" element={<PaymentPage />} />
 
         </Route>
         </Route>

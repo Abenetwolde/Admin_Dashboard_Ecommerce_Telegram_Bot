@@ -4,6 +4,10 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import CategoryIcon from '@mui/icons-material/Category';
 import NewCategory from './Page/NewCategory';
 import FastfoodIcon from '@mui/icons-material/Fastfood';
+import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
+import UserPage from './Page/User';
+import EditNoteIcon from '@mui/icons-material/EditNote';
+import PaymentsIcon from '@mui/icons-material/Payments';
 // Add other necessary icons from '@mui/icons-material' as needed
 
 const routes = [
@@ -28,6 +32,30 @@ const routes = [
     name: 'Food',
     icon: <FastfoodIcon />,
     component: NewCategory,
+    layout: '/admin',
+    appearInSidebar: true,
+  },
+  {
+    path: '/user',
+    name: 'User',
+    icon: <SupervisedUserCircleIcon />,
+    component: UserPage,
+    layout: '/admin',
+    appearInSidebar: true,
+  },
+  {
+    path: '/orders',
+    name: 'Orders',
+    icon: <EditNoteIcon />,
+    component: UserPage,
+    layout: '/admin',
+    appearInSidebar: true,
+  },
+  {
+    path: '/payment',
+    name: 'Payments',
+    icon: <PaymentsIcon />,
+    component: UserPage,
     layout: '/admin',
     appearInSidebar: true,
   },

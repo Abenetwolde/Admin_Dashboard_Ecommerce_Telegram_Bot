@@ -14,6 +14,7 @@ export interface Category {
   }
   
   export interface ApiResponse {
+    data: any;
     success: boolean;
     message?: string;
     categorys?: CategoryApi[];

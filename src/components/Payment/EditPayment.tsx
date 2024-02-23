@@ -1,7 +1,7 @@
 import { Autocomplete, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import DeleteIcon from '@mui/icons-material/Delete';
+
 // import { updateCategorySuccess } from '../redux/categorySlice';
 import { useDispatch } from 'react-redux';
 import api from '../../services/api';
@@ -37,21 +37,6 @@ const EditProdcut: React.FC<any> = ({ isOpen, handleClose, editedRow, setEditedR
             }
         }
     };
-    const [highlights, setHighlights] = useState<string[]>(editedRow?.highlights || []);
-
-    const handleAddHighlight = () => {
-        if (!highlightInput.trim()) return;
-        const updatedHighlights = [...editedRow.highlights, highlightInput];
-        setEditedRow({ ...editedRow, highlights: updatedHighlights });
-        setHighlightInput('');
-    };
-
-    const handleDeleteHighlight = (index: number) => {
-        const updatedHighlights = editedRow?.highlights.filter((_, i) => i !== index);
-        setEditedRow({ ...editedRow, highlights: updatedHighlights });
-    };
-
-    const [highlightInput, setHighlightInput] = useState<string>('');
     // console.log("editedRow.images........",editedRow?.images)
     useEffect(() => {
         const fetchCategoryData = async () => {
@@ -76,15 +61,15 @@ const EditProdcut: React.FC<any> = ({ isOpen, handleClose, editedRow, setEditedR
 
             try {
                 const response = await api.post('product/upload', formData);
-                console.log('Images uploaded successfully!', response.data.imageUrl);
+                console.log('Images uploaded successfully!', response.data.fileUrls);
 
                 // Update editImage state with uploaded images
                 seteditImage(response.data.fileUrls);
 
                 // Update editedRow state with uploaded images
-                setEditedRow((prev) => (prev ? { ...prev, images: response.data.imageUrl } : null));
+                setEditedRow((prev) => (prev ? { ...prev, images: response.data.fileUrls } : null));
 
-                setUploadedImages(response.data.imageUrl);
+                setUploadedImages(response.data.fileUrls);
 
                 toast.success('Images uploaded successfully!');
             } catch (error) {
@@ -138,58 +123,47 @@ const EditProdcut: React.FC<any> = ({ isOpen, handleClose, editedRow, setEditedR
                             <p>Discription</p>
                             <TextField
                                 value={editedRow.description}
-                                onChange={(e) => setEditedRow((prev) => (prev ? { ...prev, description: e.target.value } : null))}
+                                onChange={(e) => setEditedRow((prev) => (prev ? { ...prev, icon: e.target.value } : null))}
                                 fullWidth
                                 margin="dense"
                             />
                             <p>Price</p>
                             <TextField
                                 value={editedRow.price}
-                                onChange={(e) => setEditedRow((prev) => (prev ? { ...prev, price: e.target.value } : null))}
+                                onChange={(e) => setEditedRow((prev) => (prev ? { ...prev, icon: e.target.value } : null))}
                                 fullWidth
                                 margin="dense"
                             />
-                           
-        
+                            <p>Price</p>
+                            <TextField
+                                value={editedRow.available}
+                                onChange={(e) => setEditedRow((prev) => (prev ? { ...prev, icon: e.target.value } : null))}
+                                fullWidth
+                                margin="dense"
+                            />
+                            <p>Quantity</p>
+                            <TextField
+                                value={editedRow.cookTime}
+                                onChange={(e) => setEditedRow((prev) => (prev ? { ...prev, icon: e.target.value } : null))}
+                                fullWidth
+                                margin="dense"
+                            />
                         </div>
                         <div>
-                            <div className="flex flex-col gap-2">
-                            <p>Hightlights</p>
-                            <div className="flex flex-col gap-2">
-                                    <div className="flex justify-between border rounded items-center py-1 px-2">
-                                        <TextField
-                                            value={highlightInput}
-                                            onChange={(e) => setHighlightInput(e.target.value)}
-                                            fullWidth
-                                            margin="dense"
-                                        />
-                                        <span
-                                            onClick={() => handleAddHighlight()}
-                                            className="py-3 px-6 bg-green-400 text-white hover:bg-green-500 rounded-r hover:shadow-lg cursor-pointer"
-                                        >
-                                            Add
-                                        </span>
-                                    </div>
-                                    <div className="flex flex-col gap-1.5">
-                                        {editedRow?.highlights.map((h, i) => (
-                                            <div
-                                                key={i}
-                                                className="flex justify-between rounded items-center py-1 px-2 bg-green-50"
-                                            >
-                                                <p className="text-green-800 text-sm font-medium">{h}</p>
-                                                <span
-                                                    onClick={() => handleDeleteHighlight(i)}
-                                                    className="text-red-600 hover:bg-red-100 p-1 rounded-full cursor-pointer"
-                                                >
-                                                    <DeleteIcon />
-                                                </span>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
-                          
-                          
+                            <p>Name</p>
+                            <TextField
+                                value={editedRow?.images}
+                                onChange={(e) => setEditedRow((prev) => (prev ? { ...prev, name: e.target.value } : null))}
+                                fullWidth
+                                margin="dense"
+                            />
+                            <p>Discription</p>
+                            <TextField
+                                value={editedRow.description}
+                                onChange={(e) => setEditedRow((prev) => (prev ? { ...prev, icon: e.target.value } : null))}
+                                fullWidth
+                                margin="dense"
+                            />
                                  <p>Category</p>
                                  <Autocomplete
                             options={categories}
@@ -198,8 +172,20 @@ const EditProdcut: React.FC<any> = ({ isOpen, handleClose, editedRow, setEditedR
                             value={editedRow?.category}
                             renderInput={(params) => <TextField {...params} />}
                         />
-                          
-                          
+                            <p>Price</p>
+                            <TextField
+                                value={editedRow.price}
+                                onChange={(e) => setEditedRow((prev) => (prev ? { ...prev, icon: e.target.value } : null))}
+                                fullWidth
+                                margin="dense"
+                            />
+                            <p>Available</p>
+                            <TextField
+                                value={editedRow.available}
+                                onChange={(e) => setEditedRow((prev) => (prev ? { ...prev, icon: e.target.value } : null))}
+                                fullWidth
+                                margin="dense"
+                            />
                             <div className="flex flex-col gap-2 m-2 ">
                                 <h2 className="font-medium">Product Images</h2>
                                 <div className="flex gap-2 overflow-x-auto h-32 border rounded">
@@ -216,7 +202,6 @@ const EditProdcut: React.FC<any> = ({ isOpen, handleClose, editedRow, setEditedR
                                     )}
                                 </div>
                                 {loading && <div>Loading...</div>}
-                                <div className="flex flex-row gap-2 m-2 ">
                                 <label className="rounded font-medium bg-gray-400 text-center cursor-pointer text-white p-2 shadow hover:shadow-lg my-2 sm:w-1/2">
                                     <input
                                         type="file"
@@ -228,11 +213,9 @@ const EditProdcut: React.FC<any> = ({ isOpen, handleClose, editedRow, setEditedR
                                     />
                                     Choose Files
                                 </label>
-                                <button className=' bg-green-400 text-white hover:bg-green-500' type="button" onClick={handleUpload}>
+                                <button type="button" onClick={handleUpload}>
                                     Upload Images
                                 </button>
-                                </div>
-                             
 
 
                             </div>

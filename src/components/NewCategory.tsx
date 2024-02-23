@@ -67,8 +67,8 @@ const NewCategoryForm: React.FC = () => {
           className="w-full border p-2 focus:outline-none focus:shadow-outline"
         />
       </div>
-      <ImageUploadComponent onUploadFinish={handleUploadFinish} />
-      {uploadedImageUrls.length > 0 && <ImageDisplayComponent imageUrls={uploadedImageUrls} />}
+      {/* <ImageUploadComponent onUploadFinish={handleUploadFinish} />
+      {uploadedImageUrls.length > 0 && <ImageDisplayComponent imageUrls={uploadedImageUrls} />} */}
       <div className="flex justify-end">
         <button type="submit" className="bg-blue-400 text-white p-2">
           {loading ? "Creating..." : "Create"}
