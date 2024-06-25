@@ -13,9 +13,16 @@ import payment from '../redux/payment';
 const store = configureStore({
   reducer: {
     auth: authReducer,
+<<<<<<< HEAD
     category: categoryReducer,
     product:productSlice,
     user:userSlice, 
+=======
+
+    category: categoryReducer,
+    product:productSlice,
+    user:userSlice,
+>>>>>>> origin/main
     order:orderSlice,
     payment:payment
     // [categoryApi.reducerPath]: categoryApi.reducer,

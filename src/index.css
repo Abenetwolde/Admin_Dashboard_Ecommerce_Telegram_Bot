@@ -15,6 +15,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+<<<<<<< HEAD
 .custom-date-range-picker {
   width: 200px;
   align-items: center;
@@ -24,6 +25,9 @@
   left: '50%';
   transform: 'translateX(-50%)', /* Adjust the width as needed */
 }
+=======
+
+>>>>>>> origin/main
 a {
   font-weight: 500;
   color: #646cff;

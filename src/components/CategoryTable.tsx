@@ -16,7 +16,16 @@ const CategoryTable: React.FC = () => {
     const [deleteRow, setDeletedRow] = useState<Category | null>(null);
     const [editedRow, setEditedRow] = useState<Category | null>(null);
     const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
+<<<<<<< HEAD
 
+=======
+    // const [data, setData] = useState<Category[]>([]);
+    // const [page, setPage] = useState<number>(0);
+    // const [rowsPerPage, setRowsPerPage] = useState<number>(10);
+    
+    // const [totalRows, setTotalRows] = useState<number>(0);
+    // const [totalPages, setTotalPages] = useState<number>(0);
+>>>>>>> origin/main
     const columns = [
         { Header: 'ID', accessor: '_id' },
         {
@@ -109,12 +118,21 @@ const CategoryTable: React.FC = () => {
                 {
                     !categoryState.loading ?
                         (
+<<<<<<< HEAD
                             <TableContainer component={Paper} className="overflow-auto mt-10 ">
                                 <Table sx={{ maxWidth: 1300 }} aria-label="product table" className="border-collapse align-center justify-center mx-auto">
                                     <TableHead className=" !text-white">
                                         <TableRow>
                                             {columns.map((column) => (
                                                 <TableCell key={column.accessor} className={`p-2 !text-m`}>
+=======
+                            <TableContainer component={Paper} className="overflow-auto ">
+                                <Table sx={{ maxWidth: 1300 }} aria-label="product table" className="border-collapse align-center justify-center mx-auto">
+                                    <TableHead className="bg-blue-200 !text-white">
+                                        <TableRow>
+                                            {columns.map((column) => (
+                                                <TableCell key={column.accessor} className={`p-2 !text-md !text-black`}>
+>>>>>>> origin/main
                                                     {column.Header}
                                                 </TableCell>
                                             ))}
@@ -127,7 +145,11 @@ const CategoryTable: React.FC = () => {
                                         {categoryState.data.map((product, index) => (
                                             <TableRow
                                                 key={product._id}
+<<<<<<< HEAD
                                                 // className={index % 2 === 0 ? 'bg-blue-50' : 'bg-white'}
+=======
+                                                className={index % 2 === 0 ? 'bg-blue-50' : 'bg-white'}
+>>>>>>> origin/main
                                             >
                                                 {columns.map((column) => (
                                                     <TableCell key={column.accessor} className={`p-2`}>
