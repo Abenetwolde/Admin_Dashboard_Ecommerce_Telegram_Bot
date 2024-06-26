@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import { useEffect, useRef, useState } from "react";
-=======
-import { useEffect } from "react";
->>>>>>> origin/main
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useDispatch } from "react-redux";
@@ -10,7 +6,6 @@ import { useDispatch } from "react-redux";
 
 import UserTable from "../components/User/UserTable";
 import { fetchUserStart, fetchUsers } from "../redux/userSlice";
-<<<<<<< HEAD
 import { useParams } from "react-router-dom";
 import { Grid } from "@mui/material";
 import UserPerformance from "../components/Dashboard/USerPerformance";
@@ -69,20 +64,12 @@ const UserPage = () => {
       scrollToSection(performanceSectionRef);
     }
   }, [path]);
-=======
-fetchUsers
-const UserPage = () => {
-
-  const dispatch = useDispatch();
-
->>>>>>> origin/main
   useEffect(() => {
     dispatch(fetchUserStart())
     //@ts-ignore
     dispatch(fetchUsers());
   }, [dispatch]);
 
-<<<<<<< HEAD
   useEffect(() => {
     setLoadingUserPerformance(true);
     // Fetch data from the API
@@ -100,8 +87,6 @@ const UserPage = () => {
 
   const isFalse: boolean = path ? true : false
 
-=======
->>>>>>> origin/main
   return (
     <div className="">
 
@@ -109,7 +94,6 @@ const UserPage = () => {
       <div className="mb-8  flex-col align-center justify-center mx-auto w-full">
       </div>
       <div className="max-w-full  overflow-x-auto">
-<<<<<<< HEAD
    
         <UserTable />
         <Grid item xs={12} md={8} lg={8} width="100%" textAlign="center">
@@ -119,11 +103,6 @@ const UserPage = () => {
 </div>
           
         </Grid>
-=======
-
-        <UserTable />
-
->>>>>>> origin/main
       </div>
       <ToastContainer />
     </div>

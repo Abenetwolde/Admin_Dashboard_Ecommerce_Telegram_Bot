@@ -20,11 +20,7 @@ const ProdcutTable: React.FC = () => {
     const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
 
     const columns = [
-<<<<<<< HEAD
         // { Header: 'ID', accessor: '_id' },
-=======
-        { Header: 'ID', accessor: '_id' },
->>>>>>> origin/main
         {
             accessor: 'name',
             Header: 'Product Name',
@@ -58,7 +54,6 @@ const ProdcutTable: React.FC = () => {
               },
         },
         {
-<<<<<<< HEAD
             accessor: 'video',
             Header: 'Video Thumbnail',
             Cell: ({ value }: any) => {
@@ -78,8 +73,6 @@ const ProdcutTable: React.FC = () => {
               },
         },
         {
-=======
->>>>>>> origin/main
             accessor: 'category',
             Header: 'Category Name',
             Cell: ({ value }: any) => (
@@ -194,11 +187,7 @@ const ProdcutTable: React.FC = () => {
                 editedRow={editedRow}
                 setEditedRow={setEditedRow}
             />
-<<<<<<< HEAD
             <DeleteProduct
-=======
-            <DeleteUser
->>>>>>> origin/main
                isOpen={deleteModalOpen}
                handleClose={() => setDeleteModalOpen(false)}
                deletedItem={deleteRow} 
@@ -209,7 +198,6 @@ const ProdcutTable: React.FC = () => {
                 {
                     !categoryState.loading ?
                         (
-<<<<<<< HEAD
                         <div className="overflow-auto flex item-center justify-center shadow-xl">
                             <TableContainer component={Paper}sx={{ maxWidth: 1200 }} className="overflow-auto item-center justify-center">
                                 <Table  aria-label="product table" className="border-collapse align-center justify-center mx-auto">
@@ -217,14 +205,6 @@ const ProdcutTable: React.FC = () => {
                                         <TableRow>
                                             {columns.map((column) => (
                                                 <TableCell key={column.accessor} className={`p-2 !text-md`}>
-=======
-                            <TableContainer component={Paper} className="overflow-auto ">
-                                <Table sx={{ maxWidth: 1300 }} aria-label="product table" className="border-collapse align-center justify-center mx-auto">
-                                    <TableHead className="bg-blue-200 !text-white">
-                                        <TableRow>
-                                            {columns.map((column) => (
-                                                <TableCell key={column.accessor} className={`p-2 !text-md !text-black`}>
->>>>>>> origin/main
                                                     {column.Header}
                                                 </TableCell>
                                             ))}
@@ -237,11 +217,7 @@ const ProdcutTable: React.FC = () => {
                                         {categoryState?.data && categoryState?.data.map((product, index) => (
                                             <TableRow
                                                 key={product._id}
-<<<<<<< HEAD
                                                 // className={index % 2 === 0 ? 'bg-blue-50' : 'bg-white'}
-=======
-                                                className={index % 2 === 0 ? 'bg-blue-50' : 'bg-white'}
->>>>>>> origin/main
                                             >
                                                 {columns.map((column) => (
                                                     <TableCell key={column.accessor} className={`p-2`}>
@@ -279,10 +255,7 @@ const ProdcutTable: React.FC = () => {
                                     </TableFooter>
                                 </Table>
                             </TableContainer>
-<<<<<<< HEAD
                             </div>
-=======
->>>>>>> origin/main
                         ) :
 
                         (

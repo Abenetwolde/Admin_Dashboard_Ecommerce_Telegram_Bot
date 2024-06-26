@@ -50,17 +50,10 @@ const PaymentTable: React.FC = () => {
         }
     };
     const columns = [
-<<<<<<< HEAD
         // { Header: 'UserID', accessor: 'telegramid' },
     
         {
             accessor: 'telegramid',
-=======
-        { Header: 'UserID', accessor: 'telegramid' },
-    
-        {
-            accessor: 'user',
->>>>>>> origin/main
             Header: 'User Name',
             Cell: ({ value }: any) => (
                 <div className="flex items-center">
@@ -73,11 +66,7 @@ const PaymentTable: React.FC = () => {
             ),
         },
         {
-<<<<<<< HEAD
             accessor: 'telegramid',
-=======
-            accessor: 'user',
->>>>>>> origin/main
             Header: 'User First Name',
             Cell: ({ value }: any) => (
                 <div className="flex items-center">
@@ -98,11 +87,7 @@ const PaymentTable: React.FC = () => {
             Header: 'TotalAmount',
             Cell: ({ value }: any) => (
                 <div className="flex items-center">
-<<<<<<< HEAD
                     <p>{value/100} ETB</p>
-=======
-                    <p>{value/100}</p>
->>>>>>> origin/main
                 </div>
             ),
         },
@@ -127,34 +112,19 @@ const PaymentTable: React.FC = () => {
         },
         {
             accessor: 'order',
-<<<<<<< HEAD
             Header: 'Order Status',
             Cell: ({ value }: any) => (
                 <div className={`flex items-center justify-center p-1 rounded-md  ${getStatusColor(value?.paymentStatus)}`}>
                     {value?.orderStatus}
-=======
-            Header: 'Payment Status',
-            Cell: ({ value }: any) => (
-                <div className={`flex items-center justify-center p-1 rounded-md text-white ${getStatusColor(value?.paymentStatus)}`}>
-                    {value?.paymentStatus}
->>>>>>> origin/main
                 </div>
             ),
         },
         {
-<<<<<<< HEAD
             accessor: 'paymentType',
             Header: 'Payment Method',
             Cell: ({ value }: any) => (
                 <div className={`flex items-center justify-center p-1 rounded-md  ${getStatusColorType(value?.paymentType)}`}>
                     {value}
-=======
-            accessor: 'order',
-            Header: 'Payment Method',
-            Cell: ({ value }: any) => (
-                <div className={`flex items-center justify-center p-1 rounded-md text-white ${getStatusColorType(value?.paymentType)}`}>
-                    {value?.paymentType}
->>>>>>> origin/main
                 </div>
             ),
         },
@@ -247,28 +217,17 @@ const PaymentTable: React.FC = () => {
                     !categoryState.loading ?
                         (
                         //  <Scrollbar>
-<<<<<<< HEAD
                         <div className="overflow-auto flex item-center justify-center shadow-xl">
-=======
->>>>>>> origin/main
                             <TableContainer      sx={{
                                 width: { xs: '100%', md: isTablet ? '100%' : '1300px', lg: '1400px' },
                                 marginX: { xs: 1, md: isTablet ? 1 : 4, lg: 1 },
                                 flexGrow: 1
                             }}component={Paper} className="overflow-auto mx-auto ">
-<<<<<<< HEAD
                                 <Table  aria-label="product table" className="border-collapse align-center justify-center mx-auto">
                                     <TableHead >
                                         <TableRow>
                                             {columns.map((column) => (
                                                 <TableCell key={column.accessor} className={`p-2 !text-md`}>
-=======
-                                <Table sx={{ maxWidth: 1000 }} aria-label="product table" className="border-collapse align-center justify-center mx-auto">
-                                    <TableHead className="bg-blue-200 !text-white">
-                                        <TableRow>
-                                            {columns.map((column) => (
-                                                <TableCell key={column.accessor} className={`p-2 !text-md !text-black`}>
->>>>>>> origin/main
                                                     {column.Header}
                                                 </TableCell>
                                             ))}
@@ -281,11 +240,7 @@ const PaymentTable: React.FC = () => {
                                         {categoryState?.data && categoryState?.data.map((product, index) => (
                                             <TableRow
                                                 key={product._id}
-<<<<<<< HEAD
                                                 // className={index % 2 === 0 ? 'bg-blue-50' : 'bg-white'}
-=======
-                                                className={index % 2 === 0 ? 'bg-blue-50' : 'bg-white'}
->>>>>>> origin/main
                                             >
                                                 {columns.map((column) => (
                                                     <TableCell key={column.accessor} className={`p-2`}>
@@ -323,11 +278,7 @@ const PaymentTable: React.FC = () => {
                                     </TableFooter>
                                 </Table>
                             </TableContainer>
-<<<<<<< HEAD
                             </div>
-=======
-                      /* </Scrollbar> */
->>>>>>> origin/main
             ) :
 
             (

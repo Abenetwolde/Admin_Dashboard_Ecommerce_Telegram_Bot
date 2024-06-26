@@ -170,7 +170,6 @@ const UserTable: React.FC = () => {
                 {
                     !user.loading ?
                         (
-<<<<<<< HEAD
                             <div className="overflow-auto flex item-center justify-center shadow-xl">
                              
                             <TableContainer component={Paper} className="overflow-auto ">
@@ -179,14 +178,6 @@ const UserTable: React.FC = () => {
                                         <TableRow>
                                             {columns.map((column) => (
                                                 <TableCell key={column.accessor} className={`p-2 !text-md`}>
-=======
-                            <TableContainer component={Paper} className="overflow-auto ">
-                                <Table sx={{ maxWidth: 1300 }} aria-label="product table" className="border-collapse align-center justify-center mx-auto">
-                                    <TableHead className="bg-blue-200 !text-white">
-                                        <TableRow>
-                                            {columns.map((column) => (
-                                                <TableCell key={column.accessor} className={`p-2 !text-md !text-black`}>
->>>>>>> origin/main
                                                     {column.Header}
                                                 </TableCell>
                                             ))}
@@ -199,11 +190,7 @@ const UserTable: React.FC = () => {
                                         {user?.data && user?.data.map((product, index) => (
                                             <TableRow
                                                 key={product._id}
-<<<<<<< HEAD
                                                 // className={index % 2 === 0 ? 'bg-blue-50' : 'bg-white'}
-=======
-                                                className={index % 2 === 0 ? 'bg-blue-50' : 'bg-white'}
->>>>>>> origin/main
                                             >
                                                 {columns.map((column) => (
                                                     <TableCell key={column.accessor} className={`p-2`}>
@@ -241,10 +228,7 @@ const UserTable: React.FC = () => {
                                     </TableFooter>
                                 </Table>
                             </TableContainer>
-<<<<<<< HEAD
                             </div>
-=======
->>>>>>> origin/main
                         ) :
 
                         (

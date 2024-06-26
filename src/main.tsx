@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 // i18n
 // @mui
 // import AdapterDateFns from '@mui/lab/AdapterDateFns';
@@ -77,24 +76,3 @@ ReactDOM.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 // reportWebVitals();
-=======
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
-import './index.css'
-import store from './app/store.ts'
-import { Provider } from 'react-redux'
-import { BrowserRouter as Router } from 'react-router-dom';
-
-
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  
-  <React.StrictMode>
-    <Router>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </Router>
-  </React.StrictMode>,
-)
->>>>>>> origin/main

@@ -4,11 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-<<<<<<< HEAD
     "dev": "vite --host",
-=======
-    "dev": "vite",
->>>>>>> origin/main
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
@@ -17,16 +13,12 @@
     "@ant-design/icons": "5.0.1",
     "@ant-design/plots": "^1.2.5",
     "@chakra-ui/react": "^2.8.2",
-<<<<<<< HEAD
     "@iconify/react": "^4.1.1",
-=======
->>>>>>> origin/main
     "@mui/icons-material": "^5.15.1",
     "@mui/material": "^5.15.0",
     "@mui/x-charts": "^6.19.3",
     "@mui/x-data-grid": "^6.18.5",
     "@reduxjs/toolkit": "^2.0.1",
-<<<<<<< HEAD
     "antd": "^5.0.5",
     "apexcharts": "^3.48.0",
     "axios": "^1.6.2",
@@ -47,17 +39,6 @@
     "react-icons": "^4.12.0",
     "react-intersection-observer": "^9.8.1",
     "react-lazy-load-image-component": "^1.6.0",
-=======
-    "axios": "^1.6.2",
-    "date-fns": "^3.3.1",
-    "dotenv": "^16.3.1",
-    "antd": "^5.0.5",
-    "i": "^0.3.7",
-    "npm": "^10.2.5",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-icons": "^4.12.0",
->>>>>>> origin/main
     "react-loader-spinner": "^6.1.4",
     "react-redux": "^9.0.4",
     "react-router-dom": "^6.20.1",
@@ -66,10 +47,7 @@
     "recharts": "^2.11.0",
     "sass": "^1.66.1",
     "simplebar-react": "^3.2.4",
-<<<<<<< HEAD
     "stylis-plugin-rtl": "^2.1.1",
-=======
->>>>>>> origin/main
     "vite-tsconfig-paths": "^4.2.2"
   },
   "devDependencies": {
