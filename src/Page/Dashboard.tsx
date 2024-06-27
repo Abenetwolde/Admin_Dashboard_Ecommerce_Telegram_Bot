@@ -58,7 +58,7 @@ const ChartWrapperStyle = styled('div')(({ theme }) => ({
   '& .apexcharts-canvas svg': { height: CHART_HEIGHT },
   '& .apexcharts-canvas svg,.apexcharts-canvas foreignObject': {
     overflow: 'visible',
-  },
+  }, 
   '& .apexcharts-legend': {
     height: LEGEND_HEIGHT,
     alignContent: 'center',
@@ -115,7 +115,7 @@ const Dashboard = () => {
   const handlefilterClickChange = (newFilter) => {
     setfilterClick(newFilter);
 
-  };
+  }; 
   const handlefilterTimePerScenceClickChange = (newFilter) => {
     setfilterScene(newFilter);
 
