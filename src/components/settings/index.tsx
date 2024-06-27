@@ -13,7 +13,7 @@ import { NAVBAR, defaultSettings } from '../../config';
 //
 import Iconify from '../Iconify';
 // import Scrollbar from '../Scrollbar';
-import Scrollbar from '../Scrollbar';
+// import Scrollbar from '../Scrollbar';
 import { IconButtonAnimate, varFade } from '../animate';
 //
 import ToggleButton from './ToggleButton';
@@ -116,7 +116,7 @@ export default function Settings() {
 
               <Divider sx={{ borderStyle: 'dashed' }} />
 
-              <Scrollbar sx={{ flexGrow: 1 }}>
+              {/* <Scrollbar sx={{ flexGrow: 1 }}> */}
                 <Stack spacing={3} sx={{ p: 3 }}>
                   <Stack spacing={1.5}>
                     <Typography variant="subtitle2">Mode</Typography>
@@ -145,7 +145,7 @@ export default function Settings() {
 
                   <SettingFullscreen />
                 </Stack>
-              </Scrollbar>
+              {/* </Scrollbar> */}
             </RootStyle>
           </>
         )}
