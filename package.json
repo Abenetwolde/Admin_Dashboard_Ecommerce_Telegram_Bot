@@ -8,9 +8,7 @@
     "build": "vite build",
     "preview": "vite preview"
   },
-  "engines": {
-    "node": "20.x"
-  },
+
   "dependencies": {
     "@ant-design/cssinjs": "^1.17.2",
     "@ant-design/icons": "5.0.1",
