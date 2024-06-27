@@ -3,6 +3,7 @@ import React from 'react';
 import { Box, Typography, ButtonGroup, Button, Card } from '@mui/material';
 import { ResponsiveContainer } from 'recharts';
 // import UserClicks from './UserClicks';
+// import UserClicks from './UserClicks';
 import UserClicks from './userClicks';
 
 const UserClicksChart = ({ filterClick, handlefilterClickChange }) => (
