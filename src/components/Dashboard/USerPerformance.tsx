@@ -1,5 +1,5 @@
-import React from 'react';
-import { Box, Button, Card, CardHeader, Divider, InputAdornment, Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow, TextField, useTheme } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Box, Button, Card, CardHeader, Divider, InputAdornment, Paper, Skeleton, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow, TextField, useTheme } from '@mui/material';
 import LoadingIndicator from '../LoadingIndicator';
 // import Scrollbar from '../Scrollbar';
 import Iconify from '../Iconify';
@@ -8,32 +8,59 @@ import Label from '../Label';
 import FilterButtonGroup from '../FilterButtonGroup';
 import UserPerformanceIndicator from './UserPerformanceIndicator';
 import { useNavigate } from 'react-router-dom';
-
+import { useGetPerformanceQuery } from '../../redux/Api/userKpiSlice';
+import useIntersectionObserver from '../../redux/Api/utils/useIntersectionObserver';
 interface UserPerformanceProps {
-    data: Array<any>;
-    loading: boolean;
-    filterUserPerformanceTable: any;
-    handleFilterUserPerformanceTable: any;
     isFalse: boolean;
-    handelSearch:any
-    handelLimit:any;
-    handelPage:any;
 }
 
-const UserPerformance: React.FC<UserPerformanceProps> = ({ data, loading, filterUserPerformanceTable,handelSearch, handleFilterUserPerformanceTable, handelLimit,handelPage,isFalse }) => {
+const UserPerformance: React.FC<UserPerformanceProps> = ({ isFalse=true }) => {
+    const [ref, isVisible] = useIntersectionObserver();
+    const [filterUserPerformanceTable, setFilterUserPerformance] = useState('perMonth');
+    const [search, setSearch] = useState('');
+    const [page, setPage] = useState(0);
+    const [limit, setPageSize] = useState(10);
+ const {data, isLoading, refetch, error}:any=   useGetPerformanceQuery({ page: page+1 , limit:!isFalse?3:limit, search, interval: filterUserPerformanceTable }, { skip: !isVisible })
+ const renderSkeleton = () => {
+    return (
+        <TableRow>
+            {columns.map((column) => (
+                <TableCell key={column.accessor}>
+                    <Skeleton height={30} variant="text" />
+                </TableCell>
+            ))}
+            <TableCell>
+                <Skeleton height={30} variant="text" />
+            </TableCell>
+        </TableRow>
+    );
+};
+ const handleFilterUserPerformanceTable = (newFilter) => {
+    setFilterUserPerformance(newFilter);
+    console.log(newFilter)
+    refetch()
+};
+
+const handleSearch = (event) => {
+    setSearch(event.target.value);
+    refetch()
+};
+
+const handlePageChange = (event, newPage) => {
+    setPage(newPage);
+    refetch()
+};
+
+const handleRowsPerPageChange = (event) => {
+    setPageSize(parseInt(event.target.value, 10));
+    setPage(0);
+    refetch()
+};
     const theme = useTheme();
     const navigate = useNavigate();
     const isLight = theme.palette.mode === 'light';
     const columns = [
-        //   {
-        //     accessor: 'user.user.telegramid',
-        //     Header: 'Telegram ID',
-        //     Cell: ({ value }: any) => (
-        //         <div className="flex items-center">
-        //             {value}
-        //         </div>
-        //     ),
-        // },
+ 
         {
             accessor: 'user',
             Header: 'First Name',
@@ -109,13 +136,13 @@ const UserPerformance: React.FC<UserPerformanceProps> = ({ data, loading, filter
         });
         return value;
     };
-    const handleChangeSearch = (event) => {
-        // Your search handler function
-        const value = event.target.value;
-        console.log(value); // Replace with actual search handling logic
-    };
-    const tableData = isFalse ? data?.users : data;
-    console.log("Table data",tableData)
+ 
+    const tableData = data?.users 
+    useEffect(() => {
+        if (isVisible) {
+          refetch();
+        }
+      }, [isVisible, refetch]);
     return (
         <div className='mt-5'>
 
@@ -132,7 +159,7 @@ const UserPerformance: React.FC<UserPerformanceProps> = ({ data, loading, filter
                     {isFalse&&<TextField
                         size="small"
                         placeholder="Search Users..."
-                        onChange={handelSearch}
+                        onChange={handleSearch}
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
@@ -145,8 +172,7 @@ const UserPerformance: React.FC<UserPerformanceProps> = ({ data, loading, filter
                 </Box>
 
 
-                {
-                    !loading ? <TableContainer  className="overflow-auto " >
+<TableContainer  className="overflow-auto " >
                         <Table>
                             <TableHead>
                                 <TableRow>
@@ -157,8 +183,9 @@ const UserPerformance: React.FC<UserPerformanceProps> = ({ data, loading, filter
                                     ))}
                                 </TableRow>
                             </TableHead>
-                            <TableBody>
-                                {tableData.length ? tableData.map((item, index) => (
+                            <TableBody ref={ref}>
+                                {isLoading?  Array.from(new Array(3)).map((_, index) => renderSkeleton()):
+                                tableData?.length ? tableData.map((item, index) => (
                                     <TableRow key={index}>
                                         {columns.map((column) => (
                                             <TableCell key={column.accessor} className="p-2">
@@ -181,18 +208,14 @@ const UserPerformance: React.FC<UserPerformanceProps> = ({ data, loading, filter
                                                 count={data?.totalUsers}
                                                 rowsPerPage={data?.totalPages-1}
                                                 page={data?.currentPage}
-                                                onPageChange={handelPage}
-                                                onRowsPerPageChange={handelLimit}
+                                                onPageChange={handlePageChange}
+                                                onRowsPerPageChange={handleRowsPerPageChange}
                                                 className="mx-auto"
                                             />
                                         </TableRow>
                                     </TableFooter>}
                         </Table>
-                    </TableContainer> :
-                        (
-                            <LoadingIndicator />
-                        )
-                }
+                    </TableContainer> 
 
 
                 <Divider /> 

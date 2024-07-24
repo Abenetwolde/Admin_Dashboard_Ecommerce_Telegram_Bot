@@ -1,38 +1,32 @@
 // UserClicksChart.js
-import React from 'react';
-import { Box, Typography, ButtonGroup, Button, Card } from '@mui/material';
+import React, { useState } from 'react';
+import { Box, Typography, ButtonGroup, Button, Card, CardHeader } from '@mui/material';
 import { ResponsiveContainer } from 'recharts';
 // import UserClicks from './UserClicks';
 // import UserClicks from './UserClicks';
 import UserClicks from './userClicks';
+import FilterButtonGroup from '../FilterButtonGroup';
 
-const UserClicksChart = ({ filterClick, handlefilterClickChange }) => (
-    <Card
-        sx={{
-            width: { xs: '100%', lg: '100%' },
-            mb: { xs: 5, lg: 2 },
-            mt: { xs: 5, lg: 2 },
-            height: '100%',
-            borderRadius: '16px',
-            boxShadow: 3,
-            p: 2,
-            textAlign: 'center'
-        }}
-    >
-   <Box width="100%" textAlign="center">
-            <Typography sx={{ color: 'text.secondary', fontSize: 'subtitle1.fontSize', textAlign: 'left' }}>
-                Users Clicks
-            </Typography>
-            <ButtonGroup variant="outlined" aria-label="Basic button group">
-                <Button onClick={() => handlefilterClickChange("perWeek")}>Per Week</Button>
-                <Button onClick={() => handlefilterClickChange("perMonth")}>Per Month</Button>
-                <Button onClick={() => handlefilterClickChange("perYear")}>Per Year</Button>
-            </ButtonGroup>
-            <ResponsiveContainer>
+const UserClicksChart = () => {
+    const [filterClick, setfilterClick] = useState("perMonth"); 
+
+    const handlefilterClickChange = (newFilter) => {
+        setfilterClick(newFilter);
+    
+      };
+    return(<Card className='p-3 mt-5' >
+        <Box sx={{ mb: 3, textAlign: 'left' }}>
+            <CardHeader sx={{ mb: 3, textAlign: 'left' }} title={" Users Clicks"} sx={{ mb: 3 }} />
+        </Box>
+        <Box width="100%" textAlign="center">
+            <FilterButtonGroup handlefilter={handlefilterClickChange} filter={filterClick} />
+            <ResponsiveContainer height={400}>
                 <UserClicks filter={filterClick} />
             </ResponsiveContainer>
         </Box>
     </Card>
-);
+    )
+
+}
 
 export default UserClicksChart;

@@ -47,6 +47,40 @@ export interface Category {
     editedRow: Order | null;
     setEditedRow: React.Dispatch<React.SetStateAction<Category | null>>;
   }
+  export interface OrderData {
+    count: number;
+    createdAt: string;
+  }
+  
+  export interface CompletedOrdersResponse {
+    thisMonthData: OrderData[];
+    totalCancelledThisMonth: number;
+    percentageChange: number;
+    increase: boolean;
+  }
+
+  export interface CashOrderData {
+    count: number;
+    createdAt: string;
+    totalPrice: number;
+  }
+  
+  export interface CashResponse {
+    currentMonthData: OrderData[];
+    totalcash: number;
+    percentageChange: number;
+    increase: boolean;
+  }
+  export interface TransactionData {
+    _id: string;
+    totalTransaction: number;
+  }
+  export interface TransactionResponse{
+    thisMonthData: TransactionData[];
+    totalTransactionThisMonth: number;
+    percentageChange: number;
+    increase: boolean;
+  }
 // export interface ProdcutResponse {
 //     success: boolean;
 //     products: Product[];

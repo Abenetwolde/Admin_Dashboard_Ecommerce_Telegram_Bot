@@ -1,40 +1,58 @@
-import React from 'react';
-import { Grid, Card,Typography, ButtonGroup, Button, Box } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Grid, Card,Typography, ButtonGroup, Button, Box, CardHeader, Skeleton } from '@mui/material';
 import { ResponsiveContainer } from 'recharts';
 import UsersSpentTimePerScene from './UsersSpentTimePerScene';
-
-const UserClicksSection = ({ filterScene, handlefilterScene }) => (
+import FilterButtonGroup from '../FilterButtonGroup';
+import { useGetTimePerSceneQuery } from '../../redux/Api/userKpiSlice';
+import useIntersectionObserver from '../../redux/Api/utils/useIntersectionObserver';
+const UserClicksSection = () => {
+  const [ref, isVisible] = useIntersectionObserver();
+  const [filter, setfilterClick] = useState("perMonth"); 
+  const {data:filterData, isLoading, error ,refetch}:any=useGetTimePerSceneQuery(filter,{ skip: !isVisible })
+  const handlefilterScene = (newFilter) => {
+      setfilterClick(newFilter);
   
-    <Grid item xs={12} lg={12} textAlign="center">
-        <Card
-    sx={{
-      width: { xs: '100%', lg: '100%' },
-     mb: { xs: 5, lg: 2 },
-      mt: { xs: 5, lg: 2 },
-      height: '100%',
-      borderRadius: '16px',
-      boxShadow: 3,
-      p: 2,
-      textAlign: 'center'
-    }}
+    };
+    useEffect(() => {
+      if (isVisible) {
+        refetch();
+      }
+    }, [isVisible, refetch]);
+    if (isLoading) {
+      return (
+        <Grid item xs={12} lg={12} textAlign="center">
+          <Card className='p-3 mt-5'>
+            <Box sx={{ mb: 3, textAlign: 'left' }}>
+              <Skeleton variant="text" width={200} height={40} />
+            </Box>
+            <Box m={2}>
+              <Skeleton variant="rectangular" width={300} height={50} />
+            </Box>
+            <Box sx={{ mt: 3, mb: 3, flex: 1, width: "100%", justifyContent: 'flex-end', alignItems: 'center' }}>
+              <Skeleton variant="rectangular" width="100%" height={400} />
+            </Box>
+          </Card>
+        </Grid>
+      );
+    }
+    return(<Grid  ref={ref}  item xs={12} lg={12} textAlign="center">
+        <Card className='p-3 mt-5'
   >
-      <Typography sx={{ color: 'text.secondary', fontSize: 'subtitle1.fontSize', textAlign: 'left' }}>
-        Time Per-Scene 
-      </Typography>
+           <Box sx={{ mb: 3, textAlign: 'left' }}>
+            <CardHeader sx={{ mb: 3, textAlign: 'left' }} title={" Time Per-Scene "} sx={{ mb: 3 }} />
+        </Box>
+  
       <Box m={2} >
-      <ButtonGroup  variant="outlined" aria-label="Basic button group">
-        <Button onClick={() => handlefilterScene("perWeek")}>Per Week</Button>
-        <Button onClick={() => handlefilterScene("perMonth")}>Per Month</Button>
-        <Button onClick={() => handlefilterScene("perYear")}>Per Year</Button>
-      </ButtonGroup>
+        <FilterButtonGroup handlefilter={handlefilterScene} filter={filter}/>
+
       </Box>
 
       <ResponsiveContainer height={400} width="100%">
-        <UsersSpentTimePerScene filter={filterScene} />
+        <UsersSpentTimePerScene filter={filter} filterData={filterData} />
       </ResponsiveContainer>
       </Card>
     </Grid>
 
 );
-
+}
 export default UserClicksSection;

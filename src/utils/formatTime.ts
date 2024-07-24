@@ -19,7 +19,12 @@ export function fDateTimeSuffix(date) {
 }
 
 export function fToNow(date) {
-  return formatDistanceToNow(new Date(date), {
-    addSuffix: true
-  });
+  try {
+    return formatDistanceToNow(new Date(date), {
+      addSuffix: true,
+    });
+  } catch (error) {
+    console.error("Invalid date:", date, error);
+    return "Invalid date";
+  }
 }

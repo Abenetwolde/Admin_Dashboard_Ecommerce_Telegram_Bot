@@ -14,25 +14,7 @@ import { addDays } from 'date-fns'
 
 import { ButtonGroup, CardHeader, Container, Grid, IconButton, InputAdornment, TextField, styled, useTheme } from '@mui/material';
 import { Box, Card, FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material';
-import LanguagePieChart from '../components/Dashboard/LanguagePieChart';
-import UserSpentTime from '../components/Dashboard/SpentTime';
-import UserClicks from '../components/Dashboard/userClicks';
-import UsersSpentTimePerScene from '../components/Dashboard/UsersSpentTimePerScene';
-import UserRegistration from '../components/Dashboard/UserRegistration';
-import LanguageDistributionCard from '../components/Dashboard/LanguageDistributionCard';
-import TotalCountCardGrid from '../components/Dashboard/TotalCountCardGrid';
-import UserClicksChart from '../components/Dashboard/UserClicksChart';
-import UserClicksSection from '../components/Dashboard/USerSpentPerScene';
-import UserLottery from '../components/Dashboard/userLottery';
-import UserSpentTimeTable from '../components/Dashboard/userSpentTimeTable';
-import FilterButtonGroup from '../components/FilterButtonGroup';
-import UserClickTable from '../components/Dashboard/UserClickTable';
-import UserPerformance from '../components/Dashboard/USerPerformance';
-import UserPerformanceIndicator from '../components/Dashboard/UserPerformanceIndicator';
-import LoadingIndicator from '../components/LoadingIndicator';
-import ReactApexChart from 'react-apexcharts';
-import BaseOptionChart from '../components/chart/BaseOptionChart';
-import { merge } from 'lodash';
+
 import useSettings from '../hooks/useSettings';
 import AllOrderStatus from '../components/OrderDashboard/AllOrderStatus';
 import CancelANdComplatedOrder from '../components/OrderDashboard/CancelANdComplatedOrder';
@@ -41,6 +23,11 @@ import MostOfOrderCategory from '../components/OrderDashboard/MostOfOrderCategor
 import MostOfOrderProduct from '../components/OrderDashboard/MostOfOrderProduct';
 import CategoryMostClicked from '../components/OrderDashboard/CategoryMostClicked';
 import ProductMostClicked from '../components/OrderDashboard/ProductMostClicked';
+import ComplateOrder from '../components/Cards/Order/CompateOrder';
+import CancelOrder from '../components/Cards/Order/CancelOrder';
+import CashOrder from '../components/Cards/Order/CashOrder';
+import OnlineOrder from '../components/Cards/Order/OnlineOrder';
+import TotalTransaction from '../components/Cards/Order/TotalTransaction';
 const CustomTooltip = ({ label, payload }) => {
   const total = payload.reduce((acc, curr) => acc + (curr.value || 0), 0);
 
@@ -357,20 +344,26 @@ const OrderDashboard = () => {
       },
     ];
   };
+  const anotherComponentRef = useRef(null);
   return (
     <Container maxWidth={themeStretch ? false : 'xl'}>
-      <TotalCountCardGrid
-        // renderTotalCountCard={renderTotalCountCard}
-        isLoading={isLoading}
-        totalUserCount={totalUserCount}
-        userCounts={userCounts}
-        isOrderLoading={isOrderLoading}
-        totalOrderCount={totalOrderCount}
-        newOrderData={newOrderData}
-        isCancelOrderLoading={iscancelOrderLoading}
-        totalCancelOrderCount={totalCancelOrderCount}
-        newCancelOrderData={newCancelOrderData}
-      />
+         <Grid container spacing={2}>
+          <Grid lg={4} item  justifyContent="center">
+            <ComplateOrder anotherComponentRef={anotherComponentRef} />
+          </Grid>
+          <Grid lg={4} item  justifyContent="center">
+            <CancelOrder anotherComponentRef={anotherComponentRef}/>
+          </Grid>
+          <Grid lg={4} item  justifyContent="center">
+         <CashOrder/>
+          </Grid>
+          <Grid lg={4} item  justifyContent="center">
+         <OnlineOrder/>
+          </Grid>
+          <Grid lg={4} item  justifyContent="center">
+         <TotalTransaction/>
+          </Grid>
+        </Grid>
       <Grid container spacing={3} mt={5}>
         <Grid item xs={12} md={6} lg={6} width="100%" textAlign="center">
           <AllOrderStatus OrderStatus={OrderStatus} handleFilterOFStatusChange={handleFilterOFStatusChange} filterOfStatus={filterOfStatus} />
@@ -425,49 +418,6 @@ const OrderDashboard = () => {
         </Grid>
       </Grid>
 
-
-      <Grid container display="flex" spacing={4} flexDirection={{ xs: 'column', sm: 'row' }} justifyContent="space-between" minWidth="100%" mt={5}>
-        <Grid item xs={12} md={6} lg={12} width="100%" textAlign="center">
-
-          <Card
-            sx={{
-              width: '100%',
-              mb: { xs: 5, lg: 2 },
-              mt: { xs: 5, lg: 2 },
-              height: 'auto',
-              borderRadius: '16px',
-              boxShadow: 3,
-              p: 2,
-              textAlign: 'center'
-            }}
-          >
-
-     
-
-
-          </Card>
-
-        </Grid>
-
-        <Grid item xs={12} md={12} lg={12} width="100%" textAlign="center">
-
-          <Card
-            sx={{
-              width: '100%',
-              mb: { xs: 5, lg: 2 },
-              mt: { xs: 5, lg: 2 },
-              height: 'auto',
-              borderRadius: '16px',
-              boxShadow: 3,
-              p: 2,
-              textAlign: 'center'
-            }}
-          >
-
-          </Card>
-
-        </Grid>
-      </Grid>
 
 
 

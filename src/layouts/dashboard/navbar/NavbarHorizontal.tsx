@@ -7,7 +7,7 @@ import { HEADER } from '../../../config';
 // components
 import { NavSectionHorizontal } from '../../../components/nav-section';
 //
-import navConfig from './NavConfig';
+import getNavConfig from './NavConfig';
 
 // ----------------------------------------------------------------------
 
@@ -28,6 +28,7 @@ const RootStyle = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 function NavbarHorizontal() {
+  const navConfig = getNavConfig();
   return (
     <RootStyle>
       <Container maxWidth={false}>

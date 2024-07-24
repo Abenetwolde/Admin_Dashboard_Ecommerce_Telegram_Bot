@@ -18,18 +18,22 @@ import Settings from './components/settings/index.tsx'
 import ScrollToTop from './components/ScrollToTop.tsx'
 import { ChartStyle } from './components/chart';
 import { ProgressBarStyle } from './components/ProgressBar';
+import "react-toastify/dist/ReactToastify.css";
+import BreadcrumbComponent from './components/BreadcrumbComponent.tsx'
 export default function App() {
 return(
   // <React.StrictMode>
     <ThemeProvider>
       <ThemeColorPresets>
         <ThemeLocalization>
+ 
           <RtlLayout>
             <NotistackProvider>
               <MotionLazyContainer>
                 <ProgressBarStyle />
                 <ChartStyle />
                 <Settings />
+                {/* <BreadcrumbComponent/> */}
                     <Router1 />
               </MotionLazyContainer>
             </NotistackProvider>

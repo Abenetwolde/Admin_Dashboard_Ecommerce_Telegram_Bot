@@ -10,8 +10,7 @@ import { UpdateOrdertResponse, EditOrderModalProps, Order } from '../../types/or
 import { updateProductSuccess } from '../../redux/productSlice';
 import { useEffect, useState } from 'react';
 import { ApiResponse } from '../../types/Category';
-import { updateOrderSuccess } from '../../redux/orderSlice';
-
+import { useUpdateOrderByIdMutation } from '../../redux/Api/Order';
 const EditOrder: React.FC<any> = ({ isOpen, handleClose, editedRow, setEditedRow }) => {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState<boolean>(false);
@@ -21,31 +20,34 @@ const EditOrder: React.FC<any> = ({ isOpen, handleClose, editedRow, setEditedRow
  const [selectedPaymentType, setSelectedPaymentType] = useState<string>(editedRow?.paymentType || '');
     const [selectedOrderStatus, setSelectedOrderStatus] = useState<string>(editedRow?.orderStatus || '');
     const [selectedpaymentStatus, setpaymentStatus] = useState<string>(editedRow?.paymentStatus || '');
-
+    const [updateOrderById, { isLoading }] = useUpdateOrderByIdMutation();
+    useEffect(() => {
+        setSelectedPaymentType(editedRow?.paymentType || '');
+        setSelectedOrderStatus(editedRow?.orderStatus || '');
+        setpaymentStatus(editedRow?.paymentStatus || '');
+      }, [editedRow]);
     const handleUpdate = async () => {
         try {
-            // Make an API request to update the order by its ID
-            const response = await api.put<UpdateOrdertResponse, any>(`order/updateorderbyid/${editedRow?._id}`, {
-                orderId:editedRow?._id,
-                ...editedRow,
-
-            });
-
-            if (response.data.success) {
-                dispatch(updateOrderSuccess(response.data.order));
-                toast.success("Order updated successfully!");
-            } else {
-                toast.error("Failed to update order");
-            }
-
-            // Close the modal and update the data as needed
+          const updatedOrder = {
+            ...editedRow,
+            paymentType: selectedPaymentType,
+            orderStatus: selectedOrderStatus,
+            paymentStatus: selectedpaymentStatus,
+          };
+    console.log("update order", updatedOrder)
+          const response = await updateOrderById(updatedOrder).unwrap();
+    
+          if (response.success) {
+            toast.success('Order updated successfully!');
             handleClose();
+          } else {
+            toast.error('Failed to update order');
+          }
         } catch (error) {
-            toast.error(`Error updating order: ${error}`);
-            console.error('Error updating order:', error);
-            // Handle errors or display a message to the user
+          toast.error(`Error updating order: ${error}`);
+          console.error('Error updating order:', error);
         }
-    };
+      };
 
     return (
         <Dialog open={isOpen} onClose={handleClose} aria-labelledby="edit-modal" fullWidth maxWidth="lg">
@@ -116,7 +118,7 @@ const EditOrder: React.FC<any> = ({ isOpen, handleClose, editedRow, setEditedRow
                     className="text-blue-600 hover:bg-blue-200 p-1 rounded-full bg-green-100 px-5 py-2 cursor-pointer"
                     onClick={handleUpdate}
                 >
-                    Update
+                      {isLoading ? 'Updating...' : 'Update'}
                 </div>
                 <div
                     onClick={handleClose}
@@ -130,6 +132,7 @@ const EditOrder: React.FC<any> = ({ isOpen, handleClose, editedRow, setEditedRow
 };
 
 export default EditOrder;
+
 
 
 

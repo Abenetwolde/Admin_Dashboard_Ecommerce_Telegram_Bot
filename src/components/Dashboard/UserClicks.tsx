@@ -2,78 +2,73 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import ReactApexChart from 'react-apexcharts';
 import api from '../../services/api';
-import { Box, Card, Typography } from '@mui/material';
+import { Box, Card, Skeleton, Typography } from '@mui/material';
+import { useGetUserClcikQuery } from '../../redux/Api/userKpiSlice';
+const UserClicks = ({filter}:any) => {
+  const {data, isLoading, error, refetch}:any =useGetUserClcikQuery(filter)
 
-const UserClicks = ({ filter }: any) => {
-  const [chartData, setChartData] = useState([]);
-  console.log("....................", filter);
+// console.log("data?.clicksByDate?.totalClicks" ,data?.clicksByDate[0]?.totalClicks)
+
+// 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await api.get(`kpi/get-user-clicks?interval=${filter}`);
-        setChartData(response.data?.clicksByDate);
-        console.log(response.data)
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    fetchData();
+  refetch()
   }, [filter]);
-  const xAxis = chartData?.map(data => data?.clicksByDate?.map((d) => d?.date))
-  const yAxis = chartData?.map(data => data?.clicksByDate?.map((d) => d?.totalProductClicks))
-  console.log(xAxis[0])
+  const xAxis = data?.clicksByDate?.map(data => data?.clicksByDate?.map((d) => d?.date))
+  const yAxis = data?.clicksByDate?.map(data => data?.clicksByDate?.map((d) => d?.totalProductClicks))
+const x_axis=xAxis&&xAxis[0]
+const y_axis=yAxis&&yAxis[0]
   return (
 
     <Box height={300}>
       <Box sx={{ mt: 3, mb: 3, flex: 1, width: "100%", justifyContent: 'flex-end', alignItems: 'center' }}>
-        {chartData.length > 0 ? (
-          <Typography>Total Clicks: {chartData[0]?.totalClicks && chartData[0]?.totalClicks.toFixed(2)} Clicks {filter}</Typography>
+        {isLoading ? (
+          <Skeleton variant="text" width={200} />
         ) : (
-          <Typography>There aren't any Clicks {filter}</Typography>
+          data ? (
+            <Typography>Total Clicks: {data?.clicksByDate[0]?.totalClicks && data?.clicksByDate[0]?.totalClicks.toFixed(2)}</Typography>
+          ) : (
+            <Typography>There aren't any Clicks {filter}</Typography>
+          )
         )}
       </Box>
       <div style={{ height: "100%", flexGrow: 1 }}>
-        <ReactApexChart
-          options={{
-            chart: {
-              height: '100%',
-              type: 'line',
-              zoom: {
-                enabled: false
-              }
-            },
-            dataLabels: {
-              enabled: false
-            },
-            stroke: {
-              curve: 'straight'
-            },
-            // title: {
-            //   text: 'Product Trends by Month',
-            //   align: 'left'
-            // },
-            grid: {
-              row: {
-                colors: ['#f3f3f3', 'transparent'],
-                opacity: 0.5
+        {isLoading ? (
+          <Skeleton variant="rectangular" width="100%" height="100%" />
+        ) : (
+          <ReactApexChart
+            options={{
+              chart: {
+                height: '100%',
+                type: 'line',
+                zoom: {
+                  enabled: false
+                }
               },
-            },
-            xaxis: {
-              categories: xAxis[0],
-            }
-          }}
-          series={[{
-            name: 'Total Clicks',
-            data: yAxis[0],
-          }]}
-          type="line"
-          height={"100%"}
-        />
+              dataLabels: {
+                enabled: false
+              },
+              stroke: {
+                curve: 'straight'
+              },
+              grid: {
+                row: {
+                  colors: ['#f3f3f3', 'transparent'],
+                  opacity: 0.5
+                },
+              },
+              xaxis: {
+                categories: x_axis,
+              }
+            }}
+            series={[{
+              name: 'Total Clicks',
+              data: y_axis,
+            }]}
+            type="line"
+            height={"100%"}
+          />
+        )}
       </div>
-
-
-
     </Box>
   );
 };

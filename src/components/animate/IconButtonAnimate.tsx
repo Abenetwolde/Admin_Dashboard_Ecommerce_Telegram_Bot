@@ -2,13 +2,26 @@ import PropTypes from 'prop-types';
 import { m } from 'framer-motion';
 import { forwardRef } from 'react';
 // @mui
-import { Box, IconButton } from '@mui/material';
+import { Box, IconButton, Typography } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
-const IconButtonAnimate = forwardRef(({ children, size = 'medium', ...other }, ref) => (
+const IconButtonAnimate = forwardRef(({ children, size = 'medium',abbreviation, ...other }, ref) => (
   <AnimateWrap size={size}>
-    <IconButton size={size} ref={ref} {...other}>
+    <IconButton size={size} ref={ref} {...other}     sx={{
+        '&:focusVisible': {
+          outline: 'none',
+        },
+        '&:focus': {
+          outline: 'none',
+        },
+        ...other.sx,
+      }}>
+    {abbreviation && (
+        <Typography variant="body2" sx={{ mr: 1 }}>
+           {abbreviation.toUpperCase()}
+        </Typography>
+      )}
       {children}
     </IconButton>
   </AnimateWrap>
@@ -16,6 +29,7 @@ const IconButtonAnimate = forwardRef(({ children, size = 'medium', ...other }, r
 
 IconButtonAnimate.propTypes = {
   children: PropTypes.node.isRequired,
+  abbreviation: PropTypes.string, // Added abbreviation prop
   color: PropTypes.oneOf(['inherit', 'default', 'primary', 'secondary', 'info', 'success', 'warning', 'error']),
   size: PropTypes.oneOf(['small', 'medium', 'large'])
 };

@@ -1,6 +1,8 @@
+// NotificationsPopover.js
 import PropTypes from 'prop-types';
 import { noCase } from 'change-case';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 // @mui
 import {
   Box,
@@ -17,22 +19,40 @@ import {
   ListItemButton,
 } from '@mui/material';
 // utils
+// import { fToNow } from '../../../utils/formatTime';
 import { fToNow } from '../../../utils/formatTime';
-// _mock_
-import { _notifications } from '../../../_mock';
 // components
 import Iconify from '../../../components/Iconify';
 import Scrollbar from '../../../components/Scrollbar';
 import MenuPopover from '../../../components/MenuPopover';
 import { IconButtonAnimate } from '../../../components/animate';
-
-// ----------------------------------------------------------------------
+import { useGetAllFeedBackQuery, useGetUpdateFeedbackStatusMutation } from '../../../redux/Api/feedback';
 
 export default function NotificationsPopover() {
-  const [notifications, setNotifications] = useState(_notifications);
+  const { data: feedbacks, isLoading } = useGetAllFeedBackQuery({ page:1, limit: 5, search:'' });
+  const [notifications, setNotifications] = useState([]);
+  const [updateFeedbackStatus] = useGetUpdateFeedbackStatusMutation();
+const navigation =useNavigate()
+
+  useEffect(() => {
+    if (feedbacks) {
+      const formattedFeedbacks = feedbacks?.feedbacks?.map((feedback) => ({
+        id: feedback._id,
+        title: feedback.user.first_name,
+        description: feedback?.feedback,
+        avatar: feedback?.user.first_name[0],
+        createdAt: feedback.createdAt,
+        isUnRead: !feedback.isRead,
+      }));
+      setNotifications(formattedFeedbacks);
+    }
+  }, [feedbacks]);
 
   const totalUnRead = notifications.filter((item) => item.isUnRead === true).length;
-
+  // if(isLoading){
+  //   return <div>Loading...</div>
+  // }
+   
   const [open, setOpen] = useState(null);
 
   const handleOpen = (event) => {
@@ -44,12 +64,28 @@ export default function NotificationsPopover() {
   };
 
   const handleMarkAllAsRead = () => {
+    notifications.forEach(notification => {
+      if (notification.isUnRead) {
+        updateFeedbackStatus({ id: notification.id });
+      }
+    });
+
     setNotifications(
       notifications.map((notification) => ({
         ...notification,
         isUnRead: false,
       }))
     );
+  };
+
+  const handleNotificationClick = async (id) => {
+    await updateFeedbackStatus({ id });
+    setNotifications(
+      notifications.map((notification) =>
+        notification.id === id ? { ...notification, isUnRead: false } : notification
+      )
+    );
+    navigation('/dashboard/feedback')
   };
 
   return (
@@ -94,9 +130,11 @@ export default function NotificationsPopover() {
               </ListSubheader>
             }
           >
-            {notifications.slice(0, 2).map((notification) => (
-              <NotificationItem key={notification.id} notification={notification} />
-            ))}
+            {notifications
+              .filter((notification) => notification.isUnRead)
+              .map((notification) => (
+                <NotificationItem key={notification.id} notification={notification} onClick={() => handleNotificationClick(notification.id)} />
+              ))}
           </List>
 
           <List
@@ -107,9 +145,11 @@ export default function NotificationsPopover() {
               </ListSubheader>
             }
           >
-            {notifications.slice(2, 5).map((notification) => (
-              <NotificationItem key={notification.id} notification={notification} />
-            ))}
+            {notifications
+              .filter((notification) => !notification.isUnRead)
+              .map((notification) => (
+                <NotificationItem key={notification.id} notification={notification}  onClick={() => handleNotificationClick(notification.id) } />
+              ))}
           </List>
         </Scrollbar>
 
@@ -129,7 +169,7 @@ export default function NotificationsPopover() {
 
 NotificationItem.propTypes = {
   notification: PropTypes.shape({
-    createdAt: PropTypes.instanceOf(Date),
+    createdAt: PropTypes.string,
     id: PropTypes.string,
     isUnRead: PropTypes.bool,
     title: PropTypes.string,
@@ -137,13 +177,15 @@ NotificationItem.propTypes = {
     type: PropTypes.string,
     avatar: PropTypes.any,
   }),
+  onClick: PropTypes.func,
 };
 
-function NotificationItem({ notification }) {
+function NotificationItem({ notification, onClick }) {
   const { avatar, title } = renderContent(notification);
 
   return (
     <ListItemButton
+      onClick={onClick}
       sx={{
         py: 1.5,
         px: 2.5,
@@ -169,7 +211,8 @@ function NotificationItem({ notification }) {
             }}
           >
             <Iconify icon="eva:clock-outline" sx={{ mr: 0.5, width: 16, height: 16 }} />
-            {fToNow(notification.createdAt)}
+            {fToNow(notification?.createdAt)}
+  
           </Typography>
         }
       />
@@ -189,52 +232,8 @@ function renderContent(notification) {
     </Typography>
   );
 
-  if (notification.type === 'order_placed') {
-    return {
-      avatar: (
-        <img
-          alt={notification.title}
-          src="https://minimal-assets-api.vercel.app/assets/icons/ic_notification_package.svg"
-        />
-      ),
-      title,
-    };
-  }
-  if (notification.type === 'order_shipped') {
-    return {
-      avatar: (
-        <img
-          alt={notification.title}
-          src="https://minimal-assets-api.vercel.app/assets/icons/ic_notification_shipping.svg"
-        />
-      ),
-      title,
-    };
-  }
-  if (notification.type === 'mail') {
-    return {
-      avatar: (
-        <img
-          alt={notification.title}
-          src="https://minimal-assets-api.vercel.app/assets/icons/ic_notification_mail.svg"
-        />
-      ),
-      title,
-    };
-  }
-  if (notification.type === 'chat_message') {
-    return {
-      avatar: (
-        <img
-          alt={notification.title}
-          src="https://minimal-assets-api.vercel.app/assets/icons/ic_notification_chat.svg"
-        />
-      ),
-      title,
-    };
-  }
   return {
-    avatar: notification.avatar ? <img alt={notification.title} src={notification.avatar} /> : null,
+    avatar: notification.avatar,
     title,
   };
 }

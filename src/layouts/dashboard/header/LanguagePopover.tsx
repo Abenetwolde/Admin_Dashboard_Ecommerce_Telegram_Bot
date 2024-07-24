@@ -7,6 +7,7 @@ import useLocales from '../../../hooks/useLocales';
 import Image from '../../../components/Image';
 import MenuPopover from '../../../components/MenuPopover';
 import { IconButtonAnimate } from '../../../components/animate';
+import { BorderColor } from '@mui/icons-material';
 
 // ----------------------------------------------------------------------
 
@@ -27,12 +28,16 @@ export default function LanguagePopover() {
     <>
       <IconButtonAnimate
         onClick={handleOpen}
+        abbreviation={currentLang.value}
         sx={{
-          width: 40,
+          width: 70,
           height: 40,
+          border:'none',
+          borderColor:'none',
           ...(open && { bgcolor: 'action.selected' }),
         }}
       >
+
         <Image disabledEffect src={currentLang.icon} alt={currentLang.label} />
       </IconButtonAnimate>
 

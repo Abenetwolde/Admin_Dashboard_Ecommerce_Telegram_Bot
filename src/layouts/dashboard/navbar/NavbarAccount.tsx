@@ -9,6 +9,7 @@ import useAuth from '../../../hooks/useAuth';
 import { PATH_DASHBOARD } from '../../../routes/paths';
 // components
 import MyAvatar from '../../../components/MyAvatar';
+import { useSelector } from 'react-redux';
 
 // ----------------------------------------------------------------------
 
@@ -31,7 +32,8 @@ NavbarAccount.propTypes = {
 
 export default function NavbarAccount({ isCollapse }) {
   // const { user } = useAuth();
-
+  const user = useSelector((state: any) => state.auth.user);
+  console.log("nsvbsr sccount",user)
   return (
     <Link underline="none" color="inherit" component={RouterLink} to={PATH_DASHBOARD.user.account}>
       <RootStyle
@@ -57,10 +59,10 @@ export default function NavbarAccount({ isCollapse }) {
           }}
         >
           <Typography variant="subtitle2" noWrap>
-            {/* {user?.displayName} */}Ab
+            {user?.first_name}
           </Typography>
           <Typography variant="body2" noWrap sx={{ color: 'text.secondary' }}>
-            {/* {user?.role} */}Admin
+            {user?.role}
           </Typography>
         </Box>
       </RootStyle>

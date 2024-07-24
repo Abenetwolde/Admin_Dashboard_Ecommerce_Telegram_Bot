@@ -6,6 +6,8 @@ import { fetchCategories, fetchCategoriesStart } from "../redux/categorySlice";
 import NewCategoryForm from "../components/NewCategory";
 import CategoryTable from "../components/CategoryTable";
 import { styled } from '@mui/material/styles';
+import BreadcrumbComponent from "../components/BreadcrumbComponent";
+import { Box } from "@mui/material";
 
 const Container = styled('div')({
   marginBottom: 8,
@@ -28,7 +30,10 @@ const NewCategory = () => {
 
   return (
     <div>
+         
       <Container>
+
+      {/* <BreadcrumbComponent/> */}
         <NewCategoryForm />
       </Container>
       <div className="max-w-full overflow-x-auto">

@@ -6,17 +6,10 @@ import { useDispatch } from "react-redux";
 
 import { fetchProduct, fetchProductStart } from "../redux/productSlice";
 
-import { fetchOrder, fetchOrderStart } from "../redux/orderSlice";
+// import { fetchOrder, fetchOrderStart } from "../redux/orderSlice";
 import OrderTable from "../components/Order/OrderTable";
 const OrdersPage = () => {
 
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        dispatch(fetchOrderStart())
-        //@ts-ignore
-        dispatch(fetchOrder());
-    }, [dispatch]);
 
     return (
         <div className="">

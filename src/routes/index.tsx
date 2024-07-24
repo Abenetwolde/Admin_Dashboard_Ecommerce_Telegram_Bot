@@ -3,7 +3,7 @@ import { Navigate, useLocation, useRoutes } from 'react-router-dom';
 import LoadingScreen from '../components/LoadingScreen.tsx';
 // import DashboardLayout from '../layouts/dashboard/index.tsx';
 import { PATH_AFTER_LOGIN } from '../config.ts';
-import MainLayout from '../layouts/main/index.tsx';
+
 // import ProdcutPage from '../Page/ProdcutPage.tsx';
 // components
 // import LoadingScreen from '../components/LoadingScreen';
@@ -85,6 +85,7 @@ export default function Router() {
         { path: 'payments', element: <PaymentPage /> },
         { path: 'users', element: <UsersPage /> },
         { path: 'users/:path', element: <UsersPage /> },
+        { path: 'feedback', element: <FeedBackPage /> },
         // { path: 'ecommerce', element: <GeneralEcommerce /> },
         // { path: 'analytics', element: <GeneralAnalytics /> },
         // { path: 'banking', element: <GeneralBanking /> },
@@ -231,6 +232,7 @@ const ProdcutPage = Loadable(lazy(() => import('../Page/ProdcutPage.tsx')));
 const OrdersPage = Loadable(lazy(() => import('../Page/Orders.tsx')));
 const PaymentPage = Loadable(lazy(() => import('../Page/PaymentPage.tsx')));
 const UsersPage = Loadable(lazy(() => import('../Page/User.tsx')));
+const FeedBackPage = Loadable(lazy(() => import('../Page/Feedback.tsx')));
 const DashboardLayout = Loadable(lazy(() => import('../layouts/dashboard/index.tsx')));
 // const ResetPassword = Loadable(lazy(() => import('../pages/auth/ResetPassword')));
 // const VerifyCode = Loadable(lazy(() => import('../pages/auth/VerifyCode')));

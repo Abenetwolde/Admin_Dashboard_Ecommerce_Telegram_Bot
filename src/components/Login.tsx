@@ -1,76 +1,106 @@
-// src/components/Login.tsx
+
 import React from 'react';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import {  setUser  } from '../features/authSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { ToastContainer,toast } from 'react-toastify';
+import {  Link, useNavigate } from 'react-router-dom';
+import { useLoginUserMutation } from '../redux/Api/Auth';
+import { setToken, setUser } from '../redux/authSlice';
+import { useForm } from 'react-hook-form';
 
-import api from '../services/api';
-import {  useNavigate } from 'react-router-dom';
+import { Box, Button, TextField, Typography } from '@mui/material';
 const Login: React.FC = () => {
   const dispatch = useDispatch();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const [loginUser, { isLoading }] = useLoginUserMutation();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-    try {
-      const response = await api.post('user/adminlogin', { email, password });
-// console.log(response.data.User.token)
-      if (response.data.User) {
-        dispatch(setUser(response.data.User));
-        localStorage.setItem('user', JSON.stringify(response.data.User));
-        navigate("/admin/dashboard");
-      } else {
-        setError('Invalid credentials');
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  };
+const handleSubmitLogin = async ({email, password}) => {
+ 
+  try {
+    const userData = await loginUser({ email, password }).unwrap();
+    if (userData.token) {
+              dispatch(setUser(userData.user));
+              dispatch(setToken(userData.token));
+              navigate("/dashboard/app");
+            } else {
+             toast.error('Invalid credentials');
+            }           
+  } catch (err) {
+    toast.error('Login failed. Please check your credentials.');
+  }
+
+};
 
   return (
-    <div className="flex items-center justify-center h-screen">
-      <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
-            Email
-          </label>
-          <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="email"
-            type="text"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-        <div className="mb-6">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
-            Password
-          </label>
-          <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="password"
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        <div className="flex items-center justify-between">
-          <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            type="submit"
-          >
-          </button>
-        </div>
-        {error && (
-          <div className="text-red-500 text-sm">{error}</div>
-        )}
-      </form>
-    </div>
+    <>
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh', // Full viewport height
+        backgroundColor: '#f5f5f5',
+      }}
+    >
+    <Box
+    component="form"
+    onSubmit={handleSubmit(handleSubmitLogin)}
+    sx={{
+      maxWidth: '500px',
+      margin: 'auto',
+      padding: '40px',
+      borderRadius: '8px',
+      boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
+      backgroundColor: 'white',
+    }}
+  >
+    <Typography variant="h4" component="div" sx={{ mb: 2 }}>
+      Login 
+    </Typography>
+    <TextField
+      fullWidth
+      label="Email"
+      {...register('email', {
+        required: 'Email is required',
+        minLength: {
+          value: 3,
+          message: 'Email must be at least 3 characters',
+        },
+      })}
+      error={Boolean(errors.username)}
+      margin="normal"
+    />
+    <TextField
+      fullWidth
+      type="password"
+      label="Password"
+      {...register('password', {
+        required: 'Password is required',
+        minLength: {
+          value: 4,
+          message: 'Password must be at least 6 characters',
+        },
+      })}
+      error={Boolean(errors.password)}
+      margin="normal"
+      sx={{ mt: 2 }}
+    />
+  
+    <Button type="submit" size='large' variant="contained" color="primary" disabled={isLoading} fullWidth sx={{ mt: 2 }}>
+    {isLoading ? 'Logging in...' : 'Login'}
+    </Button>
+  </Box>
+  {/* <ToastContainer /> */}
+  </Box>
+  <ToastContainer />
+
+  </>
   );
 };
 

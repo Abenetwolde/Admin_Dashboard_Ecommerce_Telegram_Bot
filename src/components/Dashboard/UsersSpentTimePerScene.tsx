@@ -3,31 +3,16 @@ import axios from 'axios';
 import merge from 'lodash/merge';
 import ReactApexChart from 'react-apexcharts';
 import api from '../../services/api';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, useTheme } from '@mui/material';
 import { BaseOptionChart } from '../chart';
+import { color } from 'framer-motion';
 
-const UsersSpentTimePerScene = ({filter}:any) => {
-  const [chartData, setChartData] = useState([]);
-console.log("....................", filter);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await api.get(`kpi/get-user-spent-per-scene-name?interval=${filter}`);
-        console.log("ajsdddd..........................." ,response.data);
-        setChartData(response.data);
-        console.log(response.data)
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    fetchData();
-  }, [filter]);
+const UsersSpentTimePerScene = ({filter, filterData}:any) => {
 // console.log(chartData)
-const label:any=chartData?.map((name):any=>name?.sceneName)
-const value:any=chartData?.map((name)=>name?.totalDurationInMinutes)
+const label:any=filterData?.map((name):any=>name?.sceneName)
+const value:any=filterData?.map((name)=>name?.totalDurationInMinutes)
 const CHART_DATA = [{ data: value }];
-console.log(value,label)
+const theme=useTheme()
 const options =merge(BaseOptionChart(), {
   tooltip: {
     marker: { show: false },
@@ -45,7 +30,7 @@ const options =merge(BaseOptionChart(), {
       colors: ['#fff']
     },
     formatter: function (val, opt) {
-      return  opt.w.globals.labels[opt.dataPointIndex] + ":  " + `${Number(val).toFixed(2)} minute`
+      return   `${Number(val).toFixed(2)} minute`
     },
     offsetX: 0,
     dropShadow: {
@@ -60,7 +45,7 @@ const options =merge(BaseOptionChart(), {
     bar: {
       barHeight: '100%',
       borderRadius:0,
-      distributed: true,
+      distributed: false,
       horizontal: true,
       dataLabels: {
         position: 'bottom'
@@ -70,6 +55,7 @@ const options =merge(BaseOptionChart(), {
   xaxis: {
     categories: label,
   },
+  colors:theme.palette.primary.light
 });
 
   return (

@@ -20,6 +20,11 @@ import Searchbar from './Searchbar';
 // import ContactsPopover from './ContactsPopover';
 // import NotificationsPopover from './NotificationsPopover';
 import Image from "../../../components/Image";
+import NotificationsPopover from './NotificationsPopover';
+import PopoverMenu from './PopoverMenu';
+import { useState } from 'react';
+import LanguagePopover from './LanguagePopover';
+import { useTranslation } from 'react-i18next';
 
 // ----------------------------------------------------------------------
 
@@ -61,9 +66,16 @@ DashboardHeader.propTypes = {
 
 export default function DashboardHeader({ onOpenSidebar, isCollapse = false, verticalLayout = false }) {
   const isOffset = useOffSetTop(HEADER.DASHBOARD_DESKTOP_HEIGHT) && !verticalLayout;
-
+  const [anchorEl, setAnchorEl] = useState(null);
   const isDesktop = useResponsive('up', 'lg');
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const { t } = useTranslation();
 
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   return (
     <RootStyle isCollapse={isCollapse} isOffset={isOffset} verticalLayout={verticalLayout}>
       <Toolbar
@@ -84,20 +96,24 @@ export default function DashboardHeader({ onOpenSidebar, isCollapse = false, ver
         <Box sx={{ flexGrow: 1 }} />
 
         <Stack direction="row" alignItems="center" spacing={{ xs: 0.5, sm: 1.5 }}>
-          <IconButtonAnimate placement="right">
-            <a href="https://github.com/shakilhasan/sabil">
+        <NotificationsPopover />
+        <LanguagePopover />
+          <IconButtonAnimate placement="right"onClick={handleClick} >
+           
               <Image
                   disabledEffect
-                  // src={`https://minimal-assets-api.vercel.app/assets/icons/auth/ic_${method}.png`}
-                  src={`/icons/ic_github.svg`}
+                  src={`https://th.bing.com/th/id/OIP.fyCCXwkRz9vrY_TsNRq5rgHaHa?rs=1&pid=ImgDetMain`}
                   sx={{width: 32, height: 32}}
               />
-            </a>
+        
           </IconButtonAnimate>
-          {/* <LanguagePopover />
-          <NotificationsPopover />
-          <ContactsPopover />
-          <AccountPopover /> */}
+          <PopoverMenu anchorEl={anchorEl} handleClose={handleClose} />
+{/*   
+         <p className='text-blue-600'>{t('welcome')}</p> */}
+          {/* <NotificationsPopover /> */}
+          {/* <ContactsPopover /> */}
+              
+          {/* <AccountPopover />  */}
         </Stack>
       </Toolbar>
     </RootStyle>
